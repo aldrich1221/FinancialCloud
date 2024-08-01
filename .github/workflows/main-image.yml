@@ -1,11 +1,10 @@
 name: CI
-
 on:
   push:
     branches: [ "main" ]
+    tags: [ "*" ]  # Add this line to trigger on any tag push
   pull_request:
     branches: [ "main" ]
-
 jobs:
 
   build:
@@ -14,5 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Extract Git tag or branch
+      id: extract_ref
+      run: |
+        if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+          echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        elif [[ "${GITHUB_REF}" == refs/heads/* ]]; then
+          echo "GIT_TAG=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        fi
+      
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag fnancialinfo:$(date +%s)
+      run: | 
+        echo "this is env.tag" + ${{ env.GIT_TAG }}
+        docker build . --file ${{ env.GIT_TAG }}/Dockerfile --tag financialinfo:$(date +%s)
