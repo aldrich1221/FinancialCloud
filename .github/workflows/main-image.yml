@@ -2,7 +2,9 @@ name: CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ "*" ]  # Add this line to trigger on any tag push
+    tags: 
+      - 'v*'
+      - 'release/*'
   pull_request:
     branches: [ "main" ]
 jobs:
@@ -16,11 +18,13 @@ jobs:
     - name: Extract Git tag or branch
       id: extract_ref
       run: |
-        if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-          echo "GIT_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-        fi
-      
+        GIT_REF=${GITHUB_REF#refs/tags/}
+        IFS='/' read -r -a REF_PARTS <<< "$GIT_REF"
+        echo "TAG_SERVICE=${REF_PARTS[1]}" >> $GITHUB_ENV
+        echo "TAG_ENV=${REF_PARTS[2]}" >> $GITHUB_ENV
+        echo "TAG_VERSION=${REF_PARTS[3]}" >> $GITHUB_ENV
+        echo ${{ env.TAG_SERVICE }}
     - name: Build the Docker image
       run: | 
         echo "this is env.tag" + ${{ env.GIT_TAG }}
-        docker build . --file ${{ env.GIT_TAG }}/Dockerfile --tag financialinfo:$(date +%s)
+        docker build . --file ${{ env.TAG_SERVICE }}/Dockerfile --tag ${{ env.TAG_SERVICE }}:$(date +%s)
