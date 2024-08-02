@@ -20,7 +20,7 @@ jobs:
           TAG_NAME=${GITHUB_REF##*/}
 
           # Split the tag by '/' and export parts as environment variables
-          IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
+          IFS='\' read -ra TAG_PARTS <<< "$TAG_NAME"
           echo "TAG_SERVICE=${TAG_PARTS[3]}" >> $GITHUB_ENV
           echo "TAG_MICROSERVICE=${TAG_PARTS[2]}" >> $GITHUB_ENV
           echo "TAG_ENV=${TAG_PARTS[1]}" >> $GITHUB_ENV
