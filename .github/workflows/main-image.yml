@@ -3,7 +3,7 @@ name: Tag Trigger
 on:
   push:
     tags:
-      - 'service*'  # This triggers the workflow for any tag that matches the pattern 'v*'
+      - 'service**'  # This triggers the workflow for any tag that matches the pattern 'v*'
 
 jobs:
   process-tags:
