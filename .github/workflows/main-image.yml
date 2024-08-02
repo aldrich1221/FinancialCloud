@@ -3,7 +3,7 @@ name: Tag Trigger
 on:
   push:
     tags:
-      - 'service*/**'  # This triggers the workflow for any tag that starts with 'service' and has further parts
+      - 'service/*/*/*'  # This triggers the workflow for tags that match the pattern
 
 jobs:
   process-tags:
@@ -19,12 +19,25 @@ jobs:
           # Get the current tag
           TAG_NAME=${GITHUB_REF##*/}
 
+          # Debug: Output the tag name
+          echo "Tag Name: $TAG_NAME"
+
           # Split the tag by '/' and export parts as environment variables
-          IFS='\' read -ra TAG_PARTS <<< "$TAG_NAME"
-          echo "TAG_SERVICE=${TAG_PARTS[3]}" >> $GITHUB_ENV
-          echo "TAG_MICROSERVICE=${TAG_PARTS[2]}" >> $GITHUB_ENV
-          echo "TAG_ENV=${TAG_PARTS[1]}" >> $GITHUB_ENV
-          echo "TAG_VERSION=${TAG_PARTS[0]}" >> $GITHUB_ENV
+          IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
+
+          # Debug: Output the array parts
+          echo "TAG_PARTS=${TAG_PARTS[@]}"
+
+          # Ensure the correct number of parts
+          if [ ${#TAG_PARTS[@]} -eq 4 ]; then
+            echo "TAG_SERVICE=${TAG_PARTS[0]}" >> $GITHUB_ENV
+            echo "TAG_MICROSERVICE=${TAG_PARTS[1]}" >> $GITHUB_ENV
+            echo "TAG_ENV=${TAG_PARTS[2]}" >> $GITHUB_ENV
+            echo "TAG_VERSION=${TAG_PARTS[3]}" >> $GITHUB_ENV
+          else
+            echo "Unexpected tag format. Please check the tag structure."
+            exit 1
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -38,7 +51,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          file: ${{ env.TAG_SERVICE }}/Dockerfile  # Specify the path to the Dockerfile
           context: .
+          file: docker/Dockerfile  # Specify the path to the Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_SERVICE }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
