@@ -52,6 +52,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: docker/Dockerfile  # Specify the path to the Dockerfile
+          file: ${{ env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
