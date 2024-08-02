@@ -22,8 +22,9 @@ jobs:
           # Split the tag by '/' and export parts as environment variables
           IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
           echo "TAG_SERVICE=${TAG_PARTS[0]}" >> $GITHUB_ENV
-          echo "TAG_ENV=${TAG_PARTS[1]}" >> $GITHUB_ENV
-          echo "TAG_VERSION=${TAG_PARTS[2]}" >> $GITHUB_ENV
+          echo "TAG_MICROSERVICE=${TAG_PARTS[1]}" >> $GITHUB_ENV
+          echo "TAG_ENV=${TAG_PARTS[2]}" >> $GITHUB_ENV
+          echo "TAG_VERSION=${TAG_PARTS[3]}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
