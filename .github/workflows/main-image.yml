@@ -6,11 +6,38 @@ on:
       - 'v*'  # This triggers the workflow for any tag that matches the pattern 'v*'
 
 jobs:
-  tag_trigger:
+  process-tags:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run a script
-        run: echo "Tag ${GITHUB_REF} has been pushed!"
+      - name: Set up tags
+        id: tags
+        run: |
+          # Get the current tag
+          TAG_NAME=${GITHUB_REF##*/}
+
+          # Split the tag by '/' and export parts as environment variables
+          IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
+          for i in "${!TAG_PARTS[@]}"; do
+            echo "TAG_PART_$i=${TAG_PARTS[$i]}" >> $GITHUB_ENV
+          done
+
+      - name: Display tag parts
+        run: |
+          for i in $(seq 0 $((${#TAG_PARTS[@]} - 1))); do
+            echo "TAG_PART_$i=${!TAG_PART_$i}"
+          done
+
+      - name: Process specific tag patterns
+        run: |
+          # Example processing logic based on tag parts
+          if [[ ${TAG_PART_0} == "release" && ${TAG_PART_1} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Processing release version tag: ${TAG_PART_1}"
+            # Add your processing logic here
+          elif [[ ${TAG_PART_0} == "feature" ]]; then
+            echo "Processing feature tag: ${TAG_PART_1}"
+            # Add your processing logic here
+          fi
