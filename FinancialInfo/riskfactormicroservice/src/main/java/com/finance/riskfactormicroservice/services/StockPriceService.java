@@ -1,6 +1,7 @@
 package com.finance.riskfactormicroservice.services;
 
-import com.finance.financialinfo.repositories.YahooFinanceRepository;
+
+import com.finance.riskfactormicroservice.repositories.YahooFinanceRepository;
 
 import java.io.IOException;
 
