@@ -17,7 +17,7 @@ jobs:
         id: tags
         run: |
           # Get the current tag
-          TAG_NAME=${GITHUB_REF##*/}
+          TAG_NAME=${GITHUB_REF##/service/*}
 
           # Debug: Output the tag name
           echo "Tag Name: $TAG_NAME"
