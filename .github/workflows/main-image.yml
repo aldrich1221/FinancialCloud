@@ -3,7 +3,7 @@ name: Tag Trigger
 on:
   push:
     tags:
-      - 'service**'  # This triggers the workflow for any tag that matches the pattern 'v*'
+      - 'service*/**'  # This triggers the workflow for any tag that starts with 'service' and has further parts
 
 jobs:
   process-tags:
@@ -21,23 +21,22 @@ jobs:
 
           # Split the tag by '/' and export parts as environment variables
           IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
-          for i in "${!TAG_PARTS[@]}"; do
-            echo "TAG_PART_$i=${TAG_PARTS[$i]}" >> $GITHUB_ENV
-          done
+          echo "TAG_SERVICE=${TAG_PARTS[0]}" >> $GITHUB_ENV
+          echo "TAG_ENV=${TAG_PARTS[1]}" >> $GITHUB_ENV
+          echo "TAG_VERSION=${TAG_PARTS[2]}" >> $GITHUB_ENV
 
-      - name: Display tag parts
-        run: |
-          for i in $(seq 0 $((${#TAG_PARTS[@]} - 1))); do
-            echo "TAG_PART_$i=${!TAG_PART_$i}"
-          done
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Process specific tag patterns
-        run: |
-          # Example processing logic based on tag parts
-          if [[ ${TAG_PART_0} == "release" && ${TAG_PART_1} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Processing release version tag: ${TAG_PART_1}"
-            # Add your processing logic here
-          elif [[ ${TAG_PART_0} == "feature" ]]; then
-            echo "Processing feature tag: ${TAG_PART_1}"
-            # Add your processing logic here
-          fi
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_SERVICE }}:${{ github.sha }}
