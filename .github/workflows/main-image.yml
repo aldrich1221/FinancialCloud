@@ -3,16 +3,8 @@ name: Tag Trigger
 on:
   push:
     tags:
-<<<<<<< HEAD
       - 'v*'  # This triggers the workflow for any tag that matches the pattern 'v*'
 
-=======
-      - '**'
-
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
->>>>>>> 50cbc853c813171820dac4f517cbf874a282344d
 jobs:
   tag_trigger:
     runs-on: ubuntu-latest
