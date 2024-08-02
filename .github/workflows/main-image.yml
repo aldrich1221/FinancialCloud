@@ -13,6 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: List all directories
+        run: |
+          echo "Listing all directories in the repository:"
+          find . -type d -print
       - name: Set up tags
         id: tags
         run: |
