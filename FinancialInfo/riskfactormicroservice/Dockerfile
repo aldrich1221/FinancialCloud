@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy the pom.xml file and the source code
 COPY pom.xml /app/pom.xml
-COPY src /app/src
+COPY ./src /app/src
 
 # Run the Maven package command
 RUN mvn package
