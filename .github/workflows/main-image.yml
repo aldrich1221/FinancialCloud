@@ -1,10 +1,8 @@
 name: CI
 on:
   push:
-    tags: 
-      - v.**
-      - 'v*'
-      - 'release/*'
+    tags:
+      - '*'
   
 jobs:
 
