@@ -1,27 +1,16 @@
-name: CI
+name: Tag Trigger
+
 on:
   push:
     tags:
-      - '**'
-  
+      - 'v*'  # This triggers the workflow for any tag that matches the pattern 'v*'
+
 jobs:
-
-  build:
-
+  tag_trigger:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Extract Git tag or branch
-      id: extract_ref
-      run: |
-        GIT_REF=${GITHUB_REF#refs/tags/}
-        IFS='/' read -r -a REF_PARTS <<< "$GIT_REF"
-        echo "TAG_SERVICE=${REF_PARTS[1]}" >> $GITHUB_ENV
-        echo "TAG_ENV=${REF_PARTS[2]}" >> $GITHUB_ENV
-        echo "TAG_VERSION=${REF_PARTS[3]}" >> $GITHUB_ENV
-        echo ${{ env.TAG_SERVICE }}
-    - name: Build the Docker image
-      run: | 
-        echo "this is env.tag" + ${{ env.GIT_TAG }}
-        docker build . --file ${{ env.TAG_SERVICE }}/Dockerfile --tag ${{ env.TAG_SERVICE }}:$(date +%s)
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run a script
+        run: echo "Tag ${GITHUB_REF} has been pushed!"
