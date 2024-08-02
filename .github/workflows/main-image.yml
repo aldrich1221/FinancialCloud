@@ -103,10 +103,12 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}""
-          echo "TAG_VERSION="${{ env.TAG_VERSION }}""
-          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"" > env_file.txt
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"
+          echo "TAG_VERSION="${{ env.TAG_VERSION }}"
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" > env_file.txt
           echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
+          echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> env_file.txt
+          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME}}" >> env_file.txt
           
       - name: Copy file to server
         run: |
@@ -121,7 +123,7 @@ jobs:
             set +a
 
             # Log in to Docker
-            # echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            echo "${{ DOCKER_PASSWORD }}" | docker login -u "${{ DOCKER_USERNAME }}" --password-stdin
 
             # Pull and run Docker container
             docker pull "${TAG_MICROSERVICE}:${TAG_VERSION}"
