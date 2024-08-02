@@ -77,6 +77,8 @@ jobs:
 
       - name: Set up environment variables
         run: |
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"
+          echo "TAG_VERSION=${{ env.TAG_VERSION }}"
           echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" > env_file.txt
           echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
           
