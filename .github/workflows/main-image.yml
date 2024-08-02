@@ -75,10 +75,27 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
+      - name: Set up environment variables
+        run: |
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" > env_file.txt
+          echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
+          
+      - name: Copy file to server
+        run: |
+          scp -i ~/.ssh/id_rsa env_file.txt deploy@${{ secrets.SERVER_IP }}:~/env_file.txt
+
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << "EOF"
-            echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker pull ${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
-            docker run -d --name ${{ env.TAG_MICROSERVICE }} ${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
+          ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
+            # Source the environment file
+            set -a
+            source ~/env_file.txt
+            set +a
+
+            # Log in to Docker
+            # echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+            # Pull and run Docker container
+            docker pull "${TAG_MICROSERVICE}:${TAG_VERSION}"
+            docker run -d --name "${TAG_MICROSERVICE}" "${TAG_MICROSERVICE}:${TAG_VERSION}"
           EOF
