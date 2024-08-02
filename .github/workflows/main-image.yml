@@ -56,6 +56,19 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./FinancialInfo/${{ env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
+          file: ./FinancialInfo/${{env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
+
+  build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@main
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+              mkdir testdir
