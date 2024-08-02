@@ -7,8 +7,8 @@ FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copy the pom.xml file and the source code
-COPY FinancialInfo/RiskFactorMicroService/pom.xml /app
-COPY FinancialInfo/RiskFactorMicroService/src /app/src
+COPY riskfactormicroservice/pom.xml /app
+COPY riskfactormicroservice/src /app/src
 
 # Run the Maven package command
 RUN mvn package
