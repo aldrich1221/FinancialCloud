@@ -1,4 +1,4 @@
-package com.finance.riskfactormicroservice.models;
+package com.finance.riskfactormicroservice.models.requests;
 
 public class StockPriceRequestBody {
     private String [] symbols;

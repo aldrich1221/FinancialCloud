@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.finance</groupId>
-    <artifactId>FinancialInfo</artifactId>
+    <artifactId>FinanceCloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>FinancialInfo</name>
     <description>FinancialInfo</description>
