@@ -7,9 +7,9 @@ FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copy the pom.xml file and the source code
-COPY pom.xml /app
-COPY src /app/src
 
+COPY FinancialCloud/ServiceDiscovery/pom.xml /app
+COPY FinancialCloud/ServiceDiscovery/src /app/src
 # Run the Maven package command
 RUN mvn package
 
