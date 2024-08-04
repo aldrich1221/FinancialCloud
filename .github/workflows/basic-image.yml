@@ -1,0 +1,67 @@
+name: Tag Trigger
+
+on:
+  push:
+    tags:
+      - 'basic/*/*/*'  # This triggers the workflow for tags that match the pattern
+
+jobs:
+  process-tags:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: List all directories
+        run: |
+          echo "Listing all directories in the repository:"
+          find . -type d -print
+      - name: Set up tags
+        id: tags
+        run: |
+          # Get the current tag
+          TAG_NAME=${GITHUB_REF##/*}
+
+          # Debug: Output the tag name
+          echo "Tag Name: $TAG_NAME"
+
+          # Split the tag by '/' and export parts as environment variables
+          IFS='/' read -ra TAG_PARTS <<< "$TAG_NAME"
+
+          # Debug: Output the array parts
+          echo "TAG_PARTS=${TAG_PARTS[@]}"
+
+          # Ensure the correct number of parts
+          if [ ${#TAG_PARTS[@]} -eq 6 ]; then
+            echo "TAG_SERVICE=${TAG_PARTS[2]}" >> $GITHUB_ENV
+            echo "TAG_MICROSERVICE=${TAG_PARTS[3]}" >> $GITHUB_ENV
+            echo "TAG_ENV=${TAG_PARTS[4]}" >> $GITHUB_ENV
+            echo "TAG_VERSION=${TAG_PARTS[5]}" >> $GITHUB_ENV
+          else
+            echo "Unexpected tag format. Please check the tag structure."
+            exit 1
+          fi
+      - name: set Env
+        env:
+        EUREKA_DEFAULT_ZONE: ${{ secrets.EUREKA_DEFAULT_ZONE }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./FinancialCloud/${{env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
+
+ 
+

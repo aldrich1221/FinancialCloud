@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 
 @Configuration
-public class DremioCloudConfiguration {
+public class FinancialCloudConfiguration {
     @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder, RateLimiter rateLimiter) {
         return builder.routes()
-                 .route("dremio", r -> r
-                .path("/dremio/prod/**")
+                 .route("indicator", r -> r
+                .path("/indicator/**")
                          .and()
                          .header("user-type", "NonDev")
                 .filters(
@@ -23,18 +23,11 @@ public class DremioCloudConfiguration {
                         .circuitBreaker(c -> c
                                 .setName("CircuitBreaker_1")
                                 .setFallbackUri("forward:/fallback"))
-
-                                .rewritePath("/dremio/prod/(?<segment>.*)", "/dremio/${segment}")
+                                .rewritePath("/indicator/(?<segment>.*)", "/indicator/${segment}")
                 )
 
+                         .uri("lb://RiskFactorMicroService"))
 
-                         .uri("lb://dremio-connector"))
-
-
-                .route("dremio-dev", r -> r.path("/stag/dremio/**")
-                        .filters(f -> f.addRequestHeader("user-type", "Dev"))
-                                .uri("lb://dremio-connector-dev")
-                )
                 .build();
     }
 
