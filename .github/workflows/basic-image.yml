@@ -56,7 +56,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+      - name: Convert TAG_MICROSERVICE to lowercase
+        run: echo "TAG_MICROSERVICE_Lower=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
