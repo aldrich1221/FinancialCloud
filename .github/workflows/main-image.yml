@@ -123,7 +123,7 @@ jobs:
             set +a
 
             # Log in to Docker
-            echo "${ DOCKER_PASSWORD}" | docker login -u "${ DOCKER_USERNAME}" --password-stdin
+            echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
             # Pull and run Docker container
             docker pull "${TAG_MICROSERVICE_LOWER}:${TAG_VERSION}"
