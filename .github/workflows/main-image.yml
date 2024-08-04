@@ -118,14 +118,13 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
             # Source the environment file
-            set -a
-            source ~/env_file.txt
-            set +a
-
+            
+            source env_file.txt
+            
             # Log in to Docker
-            echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
             # Pull and run Docker container
-            docker pull "${TAG_MICROSERVICE_LOWER}:${TAG_VERSION}"
-            docker run -d --name "${TAG_MICROSERVICE}" "${TAG_MICROSERVICE_LOWER}:${TAG_VERSION}"
+            docker pull $TAG_MICROSERVICE_LOWER:$TAG_VERSION}
+            docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
           EOF
