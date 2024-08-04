@@ -105,7 +105,8 @@ jobs:
           echo "${{ secrets.SERVER_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
+      - name: Convert TAG_MICROSERVICE to lowercase
+        run: echo "TAG_MICROSERVICE_LOWER=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Set up environment variables
         run: |
           echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"
