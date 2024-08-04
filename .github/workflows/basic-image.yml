@@ -133,7 +133,7 @@ jobs:
           
             # Pull and run Docker container
             docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
-            docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
+            docker run -d --name $TAG_MICROSERVICE $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
           EOF
 
  
