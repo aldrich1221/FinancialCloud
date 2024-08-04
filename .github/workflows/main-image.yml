@@ -128,3 +128,22 @@ jobs:
             docker pull $TAG_MICROSERVICE_LOWER:$TAG_VERSION}
             docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
           EOF
+      - name: Deploy to remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no deploy@${{ secrets.SERVER_IP }} << 'EOF'
+            # Source the environment file
+            source env_file.txt
+          
+            # Log in to Docker
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          
+            # Pull and run Docker container
+            docker pull $TAG_MICROSERVICE_LOWER:$TAG_VERSION
+            docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
+          EOF
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          TAG_MICROSERVICE_LOWER: ${{ env.TAG_MICROSERVICE_LOWER }}
+          TAG_VERSION: ${{ env.TAG_VERSION }}
+          TAG_MICROSERVICE: ${{ env.TAG_MICROSERVICE }}
