@@ -45,7 +45,9 @@ jobs:
       - name: set Env
         env:
         EUREKA_DEFAULT_ZONE: ${{ secrets.EUREKA_DEFAULT_ZONE }}
-
+        run: |
+          # Your deployment script here
+          echo "Set Env Variable..."
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
