@@ -44,7 +44,7 @@ jobs:
           fi
       - name: set Env
         env:
-        EUREKA_DEFAULT_ZONE: ${{ secrets.EUREKA_DEFAULT_ZONE }}
+          EUREKA_DEFAULT_ZONE: ${{ secrets.EUREKA_DEFAULT_ZONE }}
         run: |
           # Your deployment script here
           echo "Set Env Variable..."
