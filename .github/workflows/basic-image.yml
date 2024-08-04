@@ -110,8 +110,8 @@ jobs:
         run: |
           echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"
           echo "TAG_VERSION=${{ env.TAG_VERSION }}"
-          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" > env_file.txt
-          echo "TAG_MICROSERVICE_LOWER=${{ env.TAG_MICROSERVICE_LOWER }}" > env_file.txt
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" >> env_file.txt
+          echo "TAG_MICROSERVICE_LOWER=${{ env.TAG_MICROSERVICE_LOWER }}" >> env_file.txt
           echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
           echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> env_file.txt
           echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME}}" >> env_file.txt
