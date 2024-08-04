@@ -57,14 +57,14 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Convert TAG_MICROSERVICE to lowercase
-        run: echo "TAG_MICROSERVICE_Lower=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "TAG_MICROSERVICE_LOWER=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./FinancialCloud/${{env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE_LOWER }}:${{ env.TAG_VERSION }}
 
  
 
