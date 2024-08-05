@@ -6,6 +6,7 @@
       <list>
         <option value="$USER_HOME$/projects/FinancialInfo/FinancialInfo/APIGateway/pom.xml" />
         <option value="$USER_HOME$/projects/FinancialInfo/FinancialInfo/ServiceDiscovery/pom.xml" />
+        <option value="$USER_HOME$/projects/FinancialInfo/FinancialInfo/riskfactormicroservice/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
