@@ -118,6 +118,7 @@ jobs:
           echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME}}" >> env_file.txt
           echo "EUREKA_PORT=${{ secrets.EUREKA_PORT }}" >> env_file.txt
           echo "API_GATEWAY_PORT=${{ secrets.API_GATEWAY_PORT }}" >> env_file.txt
+          echo "EUREKA_DEFAULT_ZONE=${{ secrets.EUREKA_DEFAULT_ZONE }}" >> env_file.txt
       - name: Copy file to server
         run: |
           scp -i ~/.ssh/id_rsa env_file.txt deploy@${{ secrets.SERVER_IP }}:~/env_file.txt
