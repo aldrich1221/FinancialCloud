@@ -95,6 +95,7 @@ jobs:
             echo "TAG_MICROSERVICE=${TAG_PARTS[3]}" >> $GITHUB_ENV
             echo "TAG_ENV=${TAG_PARTS[4]}" >> $GITHUB_ENV
             echo "TAG_VERSION=${TAG_PARTS[5]}" >> $GITHUB_ENV
+            echo "EUREKA_DEFAULT_ZONE=${{ secrets.EUREKA_DEFAULT_ZONE }}" >> $GITHUB_ENV
           else
             echo "Unexpected tag format. Please check the tag structure."
             exit 1
@@ -146,7 +147,7 @@ jobs:
               docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
               docker stop $TAG_MICROSERVICE || true
               docker rm $TAG_MICROSERVICE || true
-              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
+              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
             EOF
 
 
