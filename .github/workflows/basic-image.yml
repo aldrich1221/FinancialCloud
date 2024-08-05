@@ -116,25 +116,36 @@ jobs:
           echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
           echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> env_file.txt
           echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME}}" >> env_file.txt
-
+          echo "EUREKA_PORT=${{ env.EUREKA_PORT }}" >> env_file.txt
+          echo "API_GATEWAY_PORT=${{ env.API_GATEWAY_PORT }}" >> env_file.txt
       - name: Copy file to server
         run: |
           scp -i ~/.ssh/id_rsa env_file.txt deploy@${{ secrets.SERVER_IP }}:~/env_file.txt
 
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
-            # Source the environment file
-          
-            source env_file.txt
-          
-            # Log in to Docker
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          
-            # Pull and run Docker container
-            docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
-            docker run -d --name $TAG_MICROSERVICE $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
-          EOF
+            ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
+              # Source the environment file
+              source env_file.txt
+            
+              # Determine port based on the service
+              if [ "$TAG_MICROSERVICE" = "ServiceDiscovery" ]; then
+                PORT=$EUREKA_PORT
+              elif [ "$TAG_MICROSERVICE" = "APIGateway" ]; then
+                PORT=$API_GATEWAY_PORT
+              else
+                echo "Unknown service: $TAG_MICROSERVICE"
+                exit 1
+              fi
+            
+              # Log in to Docker
+              echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            
+              # Pull and run Docker container
+              docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
+              docker stop $TAG_MICROSERVICE || true
+              docker rm $TAG_MICROSERVICE || true
+              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
+            EOF
 
- 
 
