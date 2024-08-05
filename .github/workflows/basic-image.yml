@@ -147,6 +147,16 @@ jobs:
               docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
               docker stop $TAG_MICROSERVICE || true
               docker rm $TAG_MICROSERVICE || true
+              if [ "$(docker ps -q -f name=$TAG_MICROSERVICE)" ]; then
+                # Stop the running container
+                docker stop $TAG_MICROSERVICE || true
+              fi
+              
+              # Check if the container exists (running or not)
+              if [ "$(docker ps -aq -f name=$TAG_MICROSERVICE)" ]; then
+              # Remove the container
+                docker rm $TAG_MICROSERVICE || true
+              fi
               docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
             EOF
 
