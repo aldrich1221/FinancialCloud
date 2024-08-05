@@ -146,15 +146,13 @@ jobs:
               # Pull and run Docker container
               docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
             
-              if [ $(docker ps -q -f name=$TAG_MICROSERVICE) ]; then
-                
-                docker stop $TAG_MICROSERVICE || true
+              if [ "$(docker ps -f name=$TAG_MICROSERVICE -q)" ]; then
+             
+                docker stop $TAG_MICROSERVICE 
               fi
-              
-              
-              if [ $(docker ps -aq -f name=$TAG_MICROSERVICE) ]; then
-              
-                docker rm $TAG_MICROSERVICE || true
+                
+              if [ "$(docker ps -aq -f name=$TAG_MICROSERVICE)" ]; then
+                docker rm $TAG_MICROSERVICE 
               fi
           
               docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
