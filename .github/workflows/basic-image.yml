@@ -145,8 +145,7 @@ jobs:
             
               # Pull and run Docker container
               docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
-              docker stop $TAG_MICROSERVICE || true
-              docker rm $TAG_MICROSERVICE || true
+            
               if [ "$(docker ps -q -f name=$TAG_MICROSERVICE)" ]; then
                 # Stop the running container
                 docker stop $TAG_MICROSERVICE || true
