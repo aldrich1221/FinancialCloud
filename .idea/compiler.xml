@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ServiceDiscovery" />
         <module name="RiskFactorMicroService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="APIGateway" target="17" />
+      <module name="RiskFactorMicroService" target="17" />
+      <module name="ServiceDiscovery" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
