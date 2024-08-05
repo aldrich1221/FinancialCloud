@@ -46,18 +46,30 @@ public class AuthController {
         return response;
     }
 
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Map<String, String> user) {
-        String username = user.get("username");
-        String password = user.get("password");
+//    @PostMapping("/login")
+//    public Map<String, String> login(@RequestBody Map<String, String> user) {
+//        String username = user.get("username");
+//        String password = user.get("password");
+//
+//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//
+//        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+//
+//        Map<String, String> response = new HashMap<>();
+//        response.put("jwt", jwt);
+//        return response;
+//    }
+        @PostMapping("/api/v1/login")
+        public JwtResponseDTO AuthenticateAndGetToken(@RequestBody AuthRequestDTO authRequestDTO){
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
+            if(authentication.isAuthenticated()){
+                return JwtResponseDTO.builder()
+                        .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()).build();
+            } else {
+                throw new UsernameNotFoundException("invalid user request..!!");
+            }
+        }
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-
-        Map<String, String> response = new HashMap<>();
-        response.put("jwt", jwt);
-        return response;
-    }
 }

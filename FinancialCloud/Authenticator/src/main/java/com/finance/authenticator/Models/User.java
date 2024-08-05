@@ -4,9 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
+@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "USERS")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     private Long id;
 
     @NotBlank
@@ -15,7 +21,8 @@ public class User {
 
     @NotBlank
     private String password;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<UserRole> roles = new HashSet<>();
     // Getters and setters
     public User() {
     }
