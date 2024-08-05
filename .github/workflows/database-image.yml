@@ -66,10 +66,10 @@ jobs:
               echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
               # Determine port based on the service
               if [ "$TAG_DATABASE" = "MongoDB" ]; then
-                docker run -d --name mongodb -p 27017:27017 -v mongodata:/data/db mongo
+                docker run -d --name mongodb -p 27017:27017 -v mongodata:/data/db/mongo mongo
               elif [ "$TAG_MICROSERVICE" = "Redis" ]; then
                 ##
-             
+                docker run -d --name redisdb -p 27017:27017 -v redisdata:/data/db/redis redis
               fi
             
             EOF
