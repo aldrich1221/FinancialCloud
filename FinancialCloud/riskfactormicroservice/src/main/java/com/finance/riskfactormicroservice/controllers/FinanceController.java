@@ -18,13 +18,22 @@ import java.sql.SQLException;
 public class FinanceController {
     private StockPriceService stockPriceService=new StockPriceService();
 
-    @PostMapping(path= "/getStockPrices", consumes = "application/json", produces = "application/json")
-    public String testConnecionPool(@RequestBody StockPriceRequestBody request) throws SQLException, IOException {
 
-        String[] symbols=request.getSymbols();
-        System.out.println(symbols);
-        stockPriceService.getStockPricesBySymbols(symbols);
-        return "Test OK!";
+    @PostMapping(path= "/get_daily_prices_with_date_range", consumes = "application/json", produces = "application/json")
+    public ApiResponse<?> getDailyPrices(@RequestBody StockPriceRequestBody request) throws SQLException, IOException {
+        try {
+            String[] symbols = request.getSymbols();
+            IndicatorResponse ans = (IndicatorResponse) stockPriceService.getDailyIndicators(symbols);
+
+            ApiResponse<IndicatorResponse> response = new ApiResponse<>(200, "Success", ans);
+            return response;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<Exception> response = new ApiResponse<>(300, "Failure", e);
+            return response;
+        }
+
 
     }
 

@@ -18,16 +18,26 @@ public class StockPriceService {
     private FinanceDocumentRepository financeDocumentRepository=new FinanceDocumentRepository();
 
 
+    public HashMap<String, HashMap<String, ArrayList<?>>> getStockPricesBySymbolsByDateRange(String [] symbols,Timestamp startTime,Timestamp endTime) throws IOException {
+        HashMap<String, HashMap<String, ArrayList<?>>> nestedMap=new HashMap<>();
 
-    public void getStockPricesBySymbols(String [] symbols) throws IOException {
-//        financeRepository.getMongoStockPriceSchemaBySymbol(symbols);
-        Set<String> ans=financeDocumentRepository.getCollectionSchema("SPY");
-        ans.forEach(System.out::println);
-                List<DailyStockPriceDocument> dailyPrices=financeDocumentRepository.findAllDocuments("SPY");
-        for (DailyStockPriceDocument dailyPrice : dailyPrices) {
-           System.out.println(dailyPrice.getClose()+dailyPrice.getDate().toString());
+        for (String symbol : symbols) {
 
+            List<DailyStockPriceDocument> dailyPrices=financeDocumentRepository.findDocumentsInRange(startId,endId);
+
+            ArrayList<Date> datelists =extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getDate);
+
+            ArrayList<Double> adjClosePrices =extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getAdjClose);
+
+            HashMap<String,ArrayList<?>> symbolIndicator= new HashMap<>();
+            symbolIndicator.put("Date",datelists);
+            symbolIndicator.put("AdjPrice",adjClosePrices);
+
+
+            nestedMap.put(symbol,symbolIndicator);
         }
+        return nestedMap;
+
     }
 
     public HashMap<String, HashMap<String, ArrayList<?>>> getDailyIndicators(String [] symbols) throws IOException {

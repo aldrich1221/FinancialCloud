@@ -49,6 +49,12 @@ public class FinanceDocumentRepository {
     public DailyStockPriceDocument findDocumentById(String id, String collectionName) {
         return mongoTemplate.findById(id, DailyStockPriceDocument.class, collectionName);
     }
+    public List<YourDocument> findDocumentsInRange(String startId, String endId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").gte(startId).lte(endId));
+
+        return mongoTemplate.find(query, YourDocument.class);
+    }
 
     public void deleteDocumentById(String id, String collectionName) {
         mongoTemplate.remove(new Query(Criteria.where("id").is(id)), DailyStockPriceDocument.class, collectionName);
