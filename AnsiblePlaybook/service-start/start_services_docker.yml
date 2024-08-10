@@ -27,9 +27,25 @@
 
     - name: Start ServiceDiscovery Container
       docker_container:
-        name: mongodb
-        image: mongo:latest
+        name: servicediscovery
+        image: aldrich1221/servicediscovery:latest
         state: started
         restart_policy: always
         ports:
-          - "27017:27017"
+          - "8761:8761"
+    - name: Start APIGateway Container
+      docker_container:
+        name: apigateway
+        image: aldrich1221/apigateway:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8080:8080"
+    - name: Start Authentication Container
+      docker_container:
+        name: authentication
+        image: aldrich1221/authentication:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "9001:9001"
