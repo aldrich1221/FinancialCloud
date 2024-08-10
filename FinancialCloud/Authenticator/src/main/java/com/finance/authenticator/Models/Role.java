@@ -1,14 +1,19 @@
 package com.finance.authenticator.Models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+
 @Entity
 @Data
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ROLES")
-public class UserRole {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
