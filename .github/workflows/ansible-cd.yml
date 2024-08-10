@@ -49,8 +49,8 @@ jobs:
 
       - name: Copy file to server
         run: |
-          scp -i ~/.ssh/id_rsa -r ./AnsiblePlaybook/${{env.TAG_DEPLOYTASK}} deploy@${{ secrets.SERVER_IP }}:~/playbook
-
+          scp -i ~/.ssh/id_rsa -r ./AnsiblePlaybook/${{env.TAG_DEPLOYTASK}}/* deploy@${{ secrets.SERVER_IP }}:~/playbook/
+          
       - name: Deploy
         run: |
             ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
