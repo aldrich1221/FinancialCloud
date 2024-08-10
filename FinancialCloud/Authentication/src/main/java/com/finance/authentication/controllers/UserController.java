@@ -40,6 +40,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/test")
+    public String test() {
+        try {
+            return "Welcome";
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     @Autowired
     private  AuthenticationManager authenticationManager;
 
