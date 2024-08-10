@@ -145,7 +145,8 @@ jobs:
             
               # Pull and run Docker container
               docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
-            
+              docker tag $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:latest
+               
               if [ "$(docker ps -f name=$TAG_MICROSERVICE -q)" ]; then
              
                 docker stop $TAG_MICROSERVICE 
@@ -154,8 +155,8 @@ jobs:
               if [ "$(docker ps -aq -f name=$TAG_MICROSERVICE)" ]; then
                 docker rm $TAG_MICROSERVICE 
               fi
-          
-              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION -e EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE
+              
+#              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION -e EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE
             EOF
 
 

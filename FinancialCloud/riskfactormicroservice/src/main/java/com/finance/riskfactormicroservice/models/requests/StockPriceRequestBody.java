@@ -1,5 +1,7 @@
 package com.finance.riskfactormicroservice.models.requests;
 
+import java.sql.Timestamp;
+
 public class StockPriceRequestBody {
     private String [] symbols;
 

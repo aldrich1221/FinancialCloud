@@ -1,0 +1,35 @@
+---
+- name: Start MySQL, MongoDB, and Microservice Containers
+  hosts: all
+  become: yes
+  tasks:
+
+    - name: Start MySQL Container
+      docker_container:
+        name: mysql
+        image: mysql:8
+        state: started
+        restart_policy: always
+        env:
+          MYSQL_ROOT_PASSWORD: aldrich
+          MYSQL_DATABASE: stagDB
+        ports:
+          - "3306:3306"
+
+    - name: Start MongoDB Container
+      docker_container:
+        name: mongodb
+        image: mongo:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "27017:27017"
+
+    - name: Start ServiceDiscovery Container
+      docker_container:
+        name: mongodb
+        image: mongo:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "27017:27017"

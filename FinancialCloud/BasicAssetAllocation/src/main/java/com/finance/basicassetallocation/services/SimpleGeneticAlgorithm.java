@@ -1,9 +1,8 @@
 package com.finance.basicassetallocation.services;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class AssetAllocationService {
+public class SimpleGeneticAlgorithm {
 
     private static double fitness(HashMap<String, Double> portfolio, HashMap<String, Double> returns, HashMap<String, Double> risk, ArrayList<String> symbols) {
         return symbols.stream()
@@ -53,9 +52,9 @@ public class AssetAllocationService {
             population.sort(Comparator.comparingDouble(ind -> -fitness(ind, returns, risk, symbols)));
             List<HashMap<String, Double>> newPopulation = new ArrayList<>(population.subList(0, 2));
             for (int i = 0; i < populationSize - 2; i++) {
-                List<Double> parent1 = population.get(random.nextInt(5));
-                List<Double> parent2 = population.get(random.nextInt(5));
-                List<Double> child = mutate(crossover(parent1, parent2));
+                HashMap<String, Double> parent1 = population.get(random.nextInt(5));
+                HashMap<String, Double> parent2 = population.get(random.nextInt(5));
+                HashMap<String, Double> child = mutate(crossover(parent1, parent2,symbols),symbols);
                 newPopulation.add(child);
             }
             population=newPopulation;
