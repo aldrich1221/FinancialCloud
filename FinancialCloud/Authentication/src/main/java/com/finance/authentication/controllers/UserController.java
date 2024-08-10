@@ -32,7 +32,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_GENERALUSER', 'ADMIN')")
     @GetMapping("/ping")
-    public String test() {
+    public String ping() {
         try {
             return "Welcome";
         } catch (Exception e){
