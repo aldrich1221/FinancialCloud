@@ -57,6 +57,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>net.devh</groupId>
+			<artifactId>grpc-server-spring-boot-starter</artifactId>
+			<version>2.15.0.RELEASE</version>
+		</dependency>
 
 
 
@@ -67,6 +72,22 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.xolstice.maven.plugins</groupId>
+				<artifactId>protobuf-maven-plugin</artifactId>
+				<version>0.6.1</version>
+				<configuration>
+					<protocArtifact>com.google.protobuf:protoc:3.14.0:exe:${os.detected.classifier}</protocArtifact>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>compile-custom</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
