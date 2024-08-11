@@ -30,11 +30,11 @@ public class UserController {
     @Autowired
     private JWTService jwtService;
 
-    @PreAuthorize("hasAnyRole('ROLE_GENERALUSER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_GENERALUSER', 'ADMIN')")
     @GetMapping("/ping")
     public String ping() {
         try {
-            return "Welcome";
+            return "Welcome to ping";
         } catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/test")
     public String test() {
         try {
-            return "Welcome";
+            return "Welcome to test";
         } catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -28,8 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableMethodSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -45,7 +45,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/save", "/api/v1/login", "/api/v1/signup", "/api/v1/refreshToken").permitAll()
+                        .requestMatchers("/api/v1/user/test","/api/v1/user/save", "/api/v1/user/login", "/api/v1/user/signup", "/api/v1/user/refreshToken").permitAll()
 //                        .anyRequest().authenticated()
                         .requestMatchers("/api/v1/**").authenticated()
                 )
