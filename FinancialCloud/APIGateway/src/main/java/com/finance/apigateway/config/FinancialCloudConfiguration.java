@@ -27,6 +27,10 @@ public class FinancialCloudConfiguration {
                 )
 
                          .uri("lb://RiskFactorMicroService"))
+                .route("authentication", r -> r
+                        .path("/user/**")
+                        .uri("lb://Authentication"))
+
 
                 .build();
     }
