@@ -15,6 +15,8 @@
           MYSQL_DATABASE: stagDB
         ports:
           - "3306:3306"
+        volumes:
+          - /var/lib/mysql_data:/var/lib/mysql
 
     - name: Start MongoDB Container
       docker_container:
@@ -24,6 +26,8 @@
         restart_policy: always
         ports:
           - "27017:27017"
+        volumes:
+          - /var/lib/mongodb:/data/db
 
     - name: Start ServiceDiscovery Container
       docker_container:

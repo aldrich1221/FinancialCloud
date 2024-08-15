@@ -41,7 +41,11 @@
 			<scope>test</scope>
 		</dependency>
 
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<version>3.2.2</version> <!-- Replace with the latest version -->
+		</dependency>
 
 		<!-- MySQL Connector/J -->
 		<dependency>
