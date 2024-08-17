@@ -27,13 +27,17 @@ public class FinancialCloudConfiguration {
                 )
 
                          .uri("lb://RiskFactorMicroService"))
+//                .route("authentication", r -> r
+//                        .path("/user/**")
+//                        .uri("lb://Authentication"))
                 .route("authentication", r -> r
-                        .path("/user/**")
-                        .uri("lb://Authentication"))
-                .route("authentication2", r -> r
                         .path("/api/v1/user/**")
                         .uri("lb://Authentication"))
-               
+                .route("basicassetallocation", r -> r
+                        .path("/api/v1/allocation/**")
+                        .uri("lb://BasicAssetAllocation"))
+
+
                 .build();
     }
 
