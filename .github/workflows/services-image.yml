@@ -133,12 +133,8 @@ jobs:
               source env_file.txt
             
               # Determine port based on the service
-              if [ "$TAG_MICROSERVICE" = "ServiceDiscovery" ]; then
-                PORT=$EUREKA_PORT
-              elif [ "$TAG_MICROSERVICE" = "APIGateway" ]; then
-                PORT=$API_GATEWAY_PORT
-              elif [ "$TAG_MICROSERVICE" = "Authentication" ]; then
-                PORT=$AUTHENTICATION_PORT
+              if [ "$TAG_MICROSERVICE" = "BasicAssetAllocation" ]; then
+                PORT=2001
               else
                 echo "Unknown service: $TAG_MICROSERVICE"
                 exit 1
