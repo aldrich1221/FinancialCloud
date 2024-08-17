@@ -42,7 +42,12 @@ jobs:
             echo "Unexpected tag format. Please check the tag structure."
             exit 1
           fi
-
+      - name: set Env
+        env:
+          EUREKA_DEFAULT_ZONE: ${{ secrets.EUREKA_DEFAULT_ZONE }}
+        run: |
+          # Your deployment script here
+          echo "Set Env Variable..."
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -51,16 +56,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
+      - name: Convert TAG_MICROSERVICE to lowercase
+        run: echo "TAG_MICROSERVICE_LOWER=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./FinancialCloud/${{env.TAG_MICROSERVICE }}/Dockerfile  # Specify the path to the Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE }}:${{ env.TAG_VERSION }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ env.TAG_MICROSERVICE_LOWER }}:${{ env.TAG_VERSION }}
 
- 
 
   deploy:
     runs-on: ubuntu-latest
@@ -90,6 +95,7 @@ jobs:
             echo "TAG_MICROSERVICE=${TAG_PARTS[3]}" >> $GITHUB_ENV
             echo "TAG_ENV=${TAG_PARTS[4]}" >> $GITHUB_ENV
             echo "TAG_VERSION=${TAG_PARTS[5]}" >> $GITHUB_ENV
+            echo "EUREKA_DEFAULT_ZONE=${{ secrets.EUREKA_DEFAULT_ZONE }}" >> $GITHUB_ENV
           else
             echo "Unexpected tag format. Please check the tag structure."
             exit 1
@@ -100,50 +106,61 @@ jobs:
           echo "${{ secrets.SERVER_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
+      - name: Convert TAG_MICROSERVICE to lowercase
+        run: echo "TAG_MICROSERVICE_LOWER=$(echo ${{ env.TAG_MICROSERVICE }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - name: Set up environment variables
         run: |
           echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}"
           echo "TAG_VERSION=${{ env.TAG_VERSION }}"
-          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" > env_file.txt
+          echo "TAG_MICROSERVICE=${{ env.TAG_MICROSERVICE }}" >> env_file.txt
+          echo "TAG_MICROSERVICE_LOWER=${{ env.TAG_MICROSERVICE_LOWER }}" >> env_file.txt
           echo "TAG_VERSION=${{ env.TAG_VERSION }}" >> env_file.txt
           echo "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}" >> env_file.txt
           echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME}}" >> env_file.txt
-          
+          echo "EUREKA_DEFAULT_ZONE=${{ secrets.EUREKA_DEFAULT_ZONE }}" >> env_file.txt
+          echo "EUREKA_PORT=${{ secrets.EUREKA_PORT }}" >> env_file.txt
+          echo "API_GATEWAY_PORT=${{ secrets.API_GATEWAY_PORT }}" >> env_file.txt
+          echo "AUTHENTICATION_PORT=9001" >> env_file.txt
+
       - name: Copy file to server
         run: |
           scp -i ~/.ssh/id_rsa env_file.txt deploy@${{ secrets.SERVER_IP }}:~/env_file.txt
 
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
-            # Source the environment file
+            ssh -i ~/.ssh/id_rsa deploy@${{ secrets.SERVER_IP }} << 'EOF'
+              # Source the environment file
+              source env_file.txt
             
-            source env_file.txt
+              # Determine port based on the service
+              if [ "$TAG_MICROSERVICE" = "ServiceDiscovery" ]; then
+                PORT=$EUREKA_PORT
+              elif [ "$TAG_MICROSERVICE" = "APIGateway" ]; then
+                PORT=$API_GATEWAY_PORT
+              elif [ "$TAG_MICROSERVICE" = "Authentication" ]; then
+                PORT=$AUTHENTICATION_PORT
+              else
+                echo "Unknown service: $TAG_MICROSERVICE"
+                exit 1
+              fi
             
-            # Log in to Docker
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+              # Log in to Docker
+              echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+            
+              # Pull and run Docker container
+              docker pull $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION
+              docker tag $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:latest
+               
+              if [ "$(docker ps -f name=$TAG_MICROSERVICE -q)" ]; then
+             
+                docker stop $TAG_MICROSERVICE 
+              fi
+                
+              if [ "$(docker ps -aq -f name=$TAG_MICROSERVICE)" ]; then
+                docker rm $TAG_MICROSERVICE 
+              fi
+              
+              docker run -d --name $TAG_MICROSERVICE -p $PORT:$PORT $DOCKER_USERNAME/$TAG_MICROSERVICE_LOWER:$TAG_VERSION -e EUREKA_DEFAULT_ZONE=$EUREKA_DEFAULT_ZONE
+            EOF
 
-            # Pull and run Docker container
-            docker pull $TAG_MICROSERVICE_LOWER:$TAG_VERSION}
-            docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
-          EOF
-      - name: Deploy to remote server
-        run: |
-          ssh -o StrictHostKeyChecking=no deploy@${{ secrets.SERVER_IP }} << 'EOF'
-            # Source the environment file
-            source env_file.txt
-          
-            # Log in to Docker
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          
-            # Pull and run Docker container
-            docker pull $TAG_MICROSERVICE_LOWER:$TAG_VERSION
-            docker run -d --name $TAG_MICROSERVICE $TAG_MICROSERVICE_LOWER:$TAG_VERSION
-          EOF
-        env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          TAG_MICROSERVICE_LOWER: ${{ env.TAG_MICROSERVICE_LOWER }}
-          TAG_VERSION: ${{ env.TAG_VERSION }}
-          TAG_MICROSERVICE: ${{ env.TAG_MICROSERVICE }}
+

@@ -53,3 +53,11 @@
         restart_policy: always
         ports:
           - "9001:9001"
+    - name: Start BasicAssetAllocation Container
+      docker_container:
+        name: basicassetallocation
+        image: aldrich1221/basicassetallocation:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "2001:2001"
