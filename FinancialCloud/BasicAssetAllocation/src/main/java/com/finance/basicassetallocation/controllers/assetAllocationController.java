@@ -1,22 +1,23 @@
 package com.finance.basicassetallocation.controllers;
 
 import com.finance.basicassetallocation.models.AllocationRequest;
-import com.finance.basicassetallocation.models.User;
 import com.finance.basicassetallocation.models.response.ApiResponse;
 import com.finance.basicassetallocation.services.AssetAllocationService;
-import com.finance.basicassetallocation.services.UserService;
+//import com.finance.basicassetallocation.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
+
+import static com.finance.basicassetallocation.serviceUtils.StockPoolUtil.SP500Symbols;
+import static com.finance.basicassetallocation.serviceUtils.StockPoolUtil.checkValid;
 
 @RestController
 @RequestMapping("/api/v1/allocation")
 public class assetAllocationController {
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private UserService userService;
 
     @Autowired
     private AssetAllocationService assetAllocationService;
@@ -31,25 +32,23 @@ public class assetAllocationController {
     }
 
 
-//    @GetMapping("/users")
-//    public List<User> getAllUsers() {
-//        List<User> users=userService.findAllUsers();
-//        System.out.println(users);
-//        return  users;
-//    }
-//
     @PostMapping(path="/basic",consumes = "application/json",produces = "application/json")
     public ApiResponse<?> basicMethod(@RequestBody AllocationRequest allocationRequest) throws IOException {
         String[] symbols = allocationRequest.getSymbols();
         HashMap<String,Double> ans=new HashMap<>();
-        System.out.println(allocationRequest.getSymbols()[0]+" "+symbols[0].equals("SP500"));
+
         try {
             if(symbols[0].equals("SP500") && symbols.length == 1){
+                    System.out.println("Enter simple allocation SP500");
 
-                    ans =assetAllocationService.simpleAllocationSP500();
+                    ans =assetAllocationService.simpleAllocation(SP500Symbols);
                     System.out.println(ans);
 
-            }else{
+            }else if(checkValid(symbols)){
+
+                ans =assetAllocationService.simpleAllocation(symbols);
+            }
+            else{
                 throw new Exception("Invalid symbols");
             }
 

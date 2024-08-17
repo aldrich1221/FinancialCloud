@@ -71,7 +71,7 @@ public class IndicatorUtil {
     public static ArrayList<Double> Volatility(ArrayList<Double> timeSeries, int windowSize) {
         ArrayList<Double> volatilities = new ArrayList<>();
 
-        for (int i = 0; i <= timeSeries.size() ; i++) {
+        for (int i = 0; i <= timeSeries.size()-windowSize ; i++) {
             if(i<windowSize){
                 volatilities.add(null);
                 continue;

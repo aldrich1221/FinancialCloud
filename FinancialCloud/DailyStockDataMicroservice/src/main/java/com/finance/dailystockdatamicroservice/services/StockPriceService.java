@@ -1,21 +1,17 @@
-package com.finance.basicassetallocation.services;
+package com.finance.dailystockdatamicroservice.services;
 
 
-
-import com.finance.basicassetallocation.models.mongoDB.DailyStockPriceDocument;
-import com.finance.basicassetallocation.repositories.FinanceDocumentRepository;
-import com.finance.basicassetallocation.serviceUtils.IndicatorUtil;
+import com.finance.dailystockdatamicroservice.models.mongoDB.DailyStockPriceDocument;
+import com.finance.dailystockdatamicroservice.repositories.FinanceDocumentRepository;
 
 import java.io.IOException;
+
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-import static com.finance.basicassetallocation.serviceUtils.IndicatorUtil.extractDailyDataToArrayList;
-
+import static com.finance.dailystockdatamicroservice.serviceUtils.IndicatorUtil.extractDailyDataToArrayList;
 
 public class StockPriceService {
 //    private MongoFinanceRepository financeRepository=new MongoFinanceRepository();
@@ -53,7 +49,6 @@ public class StockPriceService {
     }
 
     public HashMap<String, HashMap<String, ArrayList<?>>> getDailyIndicators(String [] symbols) throws IOException {
-
         HashMap<String, HashMap<String, ArrayList<?>>> nestedMap=new HashMap<>();
 
         for (String symbol : symbols) {
@@ -62,8 +57,6 @@ public class StockPriceService {
             ArrayList<Date> datelists =extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getDate);
 
             ArrayList<Double> adjClosePrices =extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getAdjClose);
-            ArrayList<Double> volatility= IndicatorUtil.Volatility(adjClosePrices,30);
-            ArrayList<Double> rollingReturns= IndicatorUtil.RollingReturns(adjClosePrices,30);
 
 //            ArrayList<Double> MA10=IndicatorUtil.movingAverage(adjClosePrices,10);
 //            ArrayList<Double> MA30=IndicatorUtil.movingAverage(adjClosePrices,30);
@@ -71,8 +64,6 @@ public class StockPriceService {
             HashMap<String,ArrayList<?>> symbolIndicator= new HashMap<>();
             symbolIndicator.put("Date",datelists);
             symbolIndicator.put("AdjPrice",adjClosePrices);
-            symbolIndicator.put("Volatility",volatility);
-            symbolIndicator.put("RollingReturns",rollingReturns);
 
 //            symbolIndicator.put("MA10",MA10);
 //            symbolIndicator.put("MA30",MA30);
