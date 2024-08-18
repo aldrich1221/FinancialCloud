@@ -37,15 +37,19 @@ public class FinancialCloudConfiguration {
                                         .rewritePath("/user/(?<segment>.*)", "/api/v1/user/${segment}")
                         )
                         .uri("lb://Authentication"))
+//                .route("basicassetallocation", r -> r
+//                        .path("/allocation/**")
+//                        .filters(
+//                                f -> f
+//                                        .circuitBreaker(c -> c
+//                                                .setName("CircuitBreaker_1")
+//                                                .setFallbackUri("forward:/fallback"))
+//                                        .rewritePath("/allocation/(?<segment>.*)", "/api/v1/allocation/${segment}")
+//                        )
+//                        .uri("lb://BasicAssetAllocation"))
                 .route("basicassetallocation", r -> r
-                        .path("/allocation/**")
-                        .filters(
-                                f -> f
-                                        .circuitBreaker(c -> c
-                                                .setName("CircuitBreaker_1")
-                                                .setFallbackUri("forward:/fallback"))
-                                        .rewritePath("/allocation/(?<segment>.*)", "/api/v1/allocation/${segment}")
-                        )
+                        .path("/api/v1/allocation/**")
+                       
                         .uri("lb://BasicAssetAllocation"))
 
 
