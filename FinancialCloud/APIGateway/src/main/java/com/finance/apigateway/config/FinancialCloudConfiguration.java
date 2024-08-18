@@ -31,13 +31,13 @@ public class FinancialCloudConfiguration {
 //                        .path("/user/**")
 //                        .uri("lb://Authentication"))
                 .route("authentication", r -> r
-                        .path("/user/**")
+                        .path("/api/v1/user/**")
                         .filters(
                                 f -> f
                                         .circuitBreaker(c -> c
                                                 .setName("CircuitBreaker_1")
                                                 .setFallbackUri("forward:/fallback"))
-                                        .rewritePath("/user/(?<segment>.*)", "/api/v1/user/${segment}")
+                                        .rewritePath("/api/v1/user/(?<segment>.*)", "/api/v1/user/${segment}")
                         )
                         .uri("lb://Authentication"))
                 .route("basicassetallocation", r -> r
