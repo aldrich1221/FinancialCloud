@@ -37,7 +37,7 @@ public class FinancialCloudConfiguration {
                                         .circuitBreaker(c -> c
                                                 .setName("CircuitBreaker_1")
                                                 .setFallbackUri("forward:/fallback"))
-                                        .rewritePath("/indicator/(?<segment>.*)", "/indicator/${segment}")
+                                        .rewritePath("/user/(?<segment>.*)", "/api/v1/user/${segment}")
                         )
                         .uri("lb://Authentication"))
                 .route("basicassetallocation", r -> r
@@ -47,7 +47,7 @@ public class FinancialCloudConfiguration {
                                         .circuitBreaker(c -> c
                                                 .setName("CircuitBreaker_1")
                                                 .setFallbackUri("forward:/fallback"))
-                                        .rewritePath("/indicator/(?<segment>.*)", "/indicator/${segment}")
+                                        .rewritePath("/allocation/(?<segment>.*)", "/api/v1/allocation/${segment}")
                         )
                         .uri("lb://BasicAssetAllocation"))
 
