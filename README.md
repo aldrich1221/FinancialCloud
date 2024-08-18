@@ -7,14 +7,14 @@ Please think carefully about your strategies.
 ## For trial users.
 ### 1. Get a temporary token using the login API with the username 'Guest' and the password 'Guest'.
 #### Eample:
-curl -X POST "http://34.81.200.80:8080/api/v1/user/login" \
+curl -X POST "http://34.81.200.80:8080/user/login" \
 -H "Content-Type: application/json" \
 -d '{"username":"Guest","password":"Guest"}'
 
 
 ### 2.Copy the temporary token,add it to the authentication headers as a Bearer token and send the request.
 #### Example:
-curl -X POST "http://34.81.200.80:8080/api/v1/allocation/basic" \
+curl -X POST "http://34.81.200.80:8080/allocation/basic" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_TOKEN_HERE" \
 -d '{"symbols":["NVDA","TSLA"]}'
