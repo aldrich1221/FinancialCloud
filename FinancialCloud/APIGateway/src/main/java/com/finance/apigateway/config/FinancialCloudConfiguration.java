@@ -16,28 +16,25 @@ public class FinancialCloudConfiguration {
         return builder.routes()
                  .route("indicator", r -> r
                 .path("/indicator/**")
-                         .and()
-                         .header("user-type", "NonDev")
                 .filters(
-                        f -> f
-                        .circuitBreaker(c -> c
-                                .setName("CircuitBreaker_1")
-                                .setFallbackUri("forward:/fallback"))
-                                .rewritePath("/indicator/(?<segment>.*)", "/indicator/${segment}")
+                    f -> f
+                    .circuitBreaker(c -> c
+                            .setName("CircuitBreaker_1")
+                            .setFallbackUri("forward:/fallback"))
+                            .rewritePath("/indicator/(?<segment>.*)", "/indicator/${segment}")
                 )
-
-                         .uri("lb://RiskFactorMicroService"))
+                 .uri("lb://RiskFactorMicroService"))
 //                .route("authentication", r -> r
 //                        .path("/user/**")
 //                        .uri("lb://Authentication"))
                 .route("authentication", r -> r
-                        .path("/api/v1/user/**")
+                        .path("/user/**")
                         .filters(
                                 f -> f
                                         .circuitBreaker(c -> c
                                                 .setName("CircuitBreaker_1")
                                                 .setFallbackUri("forward:/fallback"))
-                                        .rewritePath("/api/v1/user/(?<segment>.*)", "/api/v1/user/${segment}")
+                                        .rewritePath("/user/(?<segment>.*)", "/api/v1/user/${segment}")
                         )
                         .uri("lb://Authentication"))
                 .route("basicassetallocation", r -> r

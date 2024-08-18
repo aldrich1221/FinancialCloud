@@ -43,9 +43,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/user/test","/api/v1/user/save", "/api/v1/user/login", "/api/v1/user/signup", "/api/v1/user/refreshToken").permitAll()
+                        .requestMatchers("/api/v1/allocation/test","/api/v1/user/save", "/api/v1/user/login", "/api/v1/user/signup", "/api/v1/user/refreshToken").permitAll()
 //                        .anyRequest().authenticated()
-                        .requestMatchers("/api/v1/**").authenticated()
+                        .requestMatchers("/api/v1/allocation/**").authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .authenticationProvider(authenticationProvider())

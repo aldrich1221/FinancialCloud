@@ -30,6 +30,14 @@ public class assetAllocationController {
             throw new RuntimeException(e);
         }
     }
+    @GetMapping("/ping")
+    public String ping() {
+        try {
+            return "Welcome to ping";
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 
 
     @PostMapping(path="/basic",consumes = "application/json",produces = "application/json")
