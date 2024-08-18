@@ -36,7 +36,7 @@ Factor Allocation Strategies are investment approaches that involve allocating a
 
 
 # Overview of the cloud architecture
-
+![img.png](img.png)
 
 
 
