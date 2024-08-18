@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+
+option java_multiple_files =true;
+option java_package = "io.grpc.grpcinterface";
+option java_outer_classname = "GetDataProto";
+option objc_class_prefix = "HLW";
+
+package financedata;
+
+service GetData {
+
+  rpc GetData (DataRequest) returns (DataResponse) {}
+}
+
+message DataRequest {
+  string requestData = 1;
+}
+
+message DataResponse{
+  string message = 1;
+}
