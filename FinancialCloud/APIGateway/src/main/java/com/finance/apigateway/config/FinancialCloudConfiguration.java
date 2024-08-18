@@ -31,10 +31,10 @@ public class FinancialCloudConfiguration {
 //                        .path("/user/**")
 //                        .uri("lb://Authentication"))
                 .route("authentication", r -> r
-                        .path("/api/v1/user/**")
+                        .path("/user/**")
                         .uri("lb://Authentication"))
                 .route("basicassetallocation", r -> r
-                        .path("/api/v1/allocation/**")
+                        .path("/allocation/**")
                         .uri("lb://BasicAssetAllocation"))
 
 
