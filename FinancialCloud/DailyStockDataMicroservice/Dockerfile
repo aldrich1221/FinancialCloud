@@ -6,6 +6,13 @@ FROM maven:3.8.6-eclipse-temurin-17 AS build
 # Set the working directory inside the container
 WORKDIR /app
 
+
+
+COPY FinancialCloud/GRPCInterface/pom.xml app/GRPCInterface/pom.xml
+COPY FinancialCloud/GRPCInterface/src app/GRPCInterface/src
+
+RUN mvn -f app/GRPCInterface/pom.xml clean install
+
 # Copy the pom.xml file and the source code
 COPY FinancialCloud/dailystockdatamicroservice/pom.xml /app/pom.xml
 COPY FinancialCloud/dailystockdatamicroservice/src /app/src
