@@ -35,6 +35,12 @@ public class IndicatorUtil {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    public static <T> ArrayList<T> extractGRPCDailyStringToArrayList(List<DailyStockPriceDocument> data, Function<DailyStockPriceDocument, T> function) {
+        return data.stream()
+                .map(function)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
     public static ArrayList<Double> movingAverage(ArrayList<Double> dataList,int windowSize){
 
         if (dataList.size()<windowSize){

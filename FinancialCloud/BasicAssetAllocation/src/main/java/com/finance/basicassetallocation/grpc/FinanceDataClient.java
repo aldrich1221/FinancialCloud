@@ -3,39 +3,51 @@ package com.finance.basicassetallocation.grpc;
 
 import io.grpc.*;
 
-import io.grpc.examples.helloworld.GreeterGrpc;
-import io.grpc.examples.helloworld.*;
+import io.grpc.grpcinterface.GetDataGrpc;
+import io.grpc.grpcinterface.DataRequest;
+import io.grpc.grpcinterface.DataResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class HelloWorldClient {
-    private static final Logger logger = Logger.getLogger(HelloWorldClient.class.getName());
+public class FinanceDataClient {
+    private static final Logger logger = Logger.getLogger(FinanceDataClient.class.getName());
 
-    private final GreeterGrpc.GreeterBlockingStub blockingStub;
+    private final GetDataGrpc.GetDataBlockingStub blockingStub;
 
     /** Construct client for accessing HelloWorld server using the existing channel. */
-    public HelloWorldClient(Channel channel) {
+    public FinanceDataClient(Channel channel) {
         // 'channel' here is a Channel, not a ManagedChannel, so it is not this code's responsibility to
         // shut it down.
 
         // Passing Channels to code makes code easier to test and makes it easier to reuse Channels.
-        blockingStub = GreeterGrpc.newBlockingStub(channel);
+        blockingStub = GetDataGrpc.newBlockingStub(channel);
     }
 
     /** Say hello to server. */
-    public void greet(String name) {
-        logger.info("Will try to greet " + name + " ...");
-        HelloRequest request = HelloRequest.newBuilder().setName(name).build();
-        HelloReply response;
+    public String getData(List<String> symbols , String startTimeString, String endTimeString) {
+        String requestData=symbols.stream().toString();
+        logger.info("Will try to get " + requestData + " ...");
+        DataRequest request = DataRequest.newBuilder()
+                .setRequestData(requestData)
+                .setStartTime(startTimeString)
+                .setEndTime( endTimeString)
+                .setNotes("")
+                .build();
+        DataResponse response;
         try {
-            response = blockingStub.sayHello(request);
+            response = blockingStub.getData(request);
+
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-            return;
+            return null;
         }
-        logger.info("Greeting: " + response.getMessage());
+        logger.info("Obtain: " + response.getMessage());
+        return response.getMessage();
     }
 
     /**
@@ -44,6 +56,8 @@ public class HelloWorldClient {
      */
     public static void main(String[] args) throws Exception {
         String user = "Aldrich";
+        List<String> symbols = new ArrayList<>();
+        symbols.add(user);
         // Access a service running on the local machine on port 50051
         String target = "localhost:50051";
         // Allow passing in the user and target strings as command line arguments
@@ -64,8 +78,8 @@ public class HelloWorldClient {
         ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
                 .build();
         try {
-            HelloWorldClient client = new HelloWorldClient(channel);
-            client.greet(user);
+            FinanceDataClient client = new FinanceDataClient(channel);
+            client.getData(symbols,"111","222");
         } finally {
 
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);

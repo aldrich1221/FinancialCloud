@@ -1,6 +1,6 @@
 package com.finance.basicassetallocation;
 
-import com.finance.basicassetallocation.grpc.HelloWorldClient;
+import com.finance.basicassetallocation.grpc.FinanceDataClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +17,8 @@ public class BasicAssetAllocationApplication {
 
 		appConfig.printProperties();
 
-//		HelloWorldClient.main(args);
-		SpringApplication.run(BasicAssetAllocationApplication.class, args);
+		FinanceDataClient.main(args);
+//		SpringApplication.run(BasicAssetAllocationApplication.class, args);
 	}
 	public CommandLineRunner run(AppConfig myComponent) {
 		return args -> myComponent.printProperties();
