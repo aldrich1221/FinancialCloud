@@ -11,8 +11,12 @@
     <groupId>com.finance</groupId>
     <artifactId>FinanceCloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>FinancialInfo</name>
-    <description>FinancialInfo</description>
+    <modules>
+        <module>GRPCInterface</module>
+        <module>BasicAssetAllocation</module>
+    </modules>
+    <name>FinancialCloud</name>
+    <description>FinancialCloud</description>
     <url/>
     <licenses>
         <license/>

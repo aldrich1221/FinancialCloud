@@ -15,8 +15,16 @@ service GetData {
 
 message DataRequest {
   string requestData = 1;
+  string startTime = 2;
+  string endTime = 3;
+  string notes= 4;
+
 }
 
 message DataResponse{
   string message = 1;
+  string startTime = 2;
+  string endTime = 3;
+  string notes= 4;
+
 }
