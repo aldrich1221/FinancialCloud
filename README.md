@@ -4,7 +4,6 @@ Any information and recommendations from the API are only references for your de
 Please think carefully about your strategies.
 
 # How to use
-## For trial users.
 ### 1. Get a temporary token using the login API with the username 'Guest' and the password 'Guest'.
 #### Eample:
 curl -X POST "http://34.81.200.80:8080/user/login" \
@@ -14,26 +13,17 @@ curl -X POST "http://34.81.200.80:8080/user/login" \
 
 ### 2.Copy the temporary token,add it to the authentication headers as a Bearer token and send the request.
 #### Example:
-curl -X POST "http://34.81.200.80:8080/allocation/basic" \
+curl -X POST "http://34.81.200.80:8080/api/v1/allocation/basic" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer YOUR_TOKEN_HERE" \
 -d '{"symbols":["NVDA","TSLA"]}'
 
 # Algorithms
-## For trial users
 #### Simple Genetic Algorithm (SGA):
 SGA is an optimization and search heuristic inspired by the principles of natural selection and genetics. SGAs are used to find approximate solutions to optimization and search problems by mimicking the process of natural evolution
 
 #### Markwotiz Algorithm: 
 Markowitz mean-variance algorithm is a mathematical procedure used to determine the optimal portfolio of assets.The goal is to construct a portfolio that maximizes expected return for a given level of risk or minimizes risk for a given level of expected return.
-
-## For advanced users
-#### Black-Litterman Algorithm: 
-Black-Litterman Algorithm improves upon the traditional Markowitz mean-variance optimization by incorporating subjective views into the portfolio construction process. The algorithm was designed to address some of the limitations and criticisms of the original mean-variance optimization
-
-#### Factor Allocation Strategies : 
-Factor Allocation Strategies are investment approaches that involve allocating assets based on specific risk factors or factors that have been shown to explain returns across various asset classes.
-
 
 # Overview of the cloud architecture
 ![img.png](img.png)
