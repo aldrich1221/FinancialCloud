@@ -20,7 +20,6 @@ curl -X POST "http://34.81.200.80:8080/allocation/basic" \
 -d '{"symbols":["NVDA","TSLA"]}'
 
 # Algorithms
-## For trial users
 #### Simple Genetic Algorithm (SGA):
 SGA is an optimization and search heuristic inspired by the principles of natural selection and genetics. SGAs are used to find approximate solutions to optimization and search problems by mimicking the process of natural evolution
 
