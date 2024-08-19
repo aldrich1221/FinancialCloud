@@ -16,8 +16,6 @@ import static com.finance.basicassetallocation.serviceUtils.StockPoolUtil.checkV
 @RestController
 @RequestMapping("/api/v1/allocation")
 public class assetAllocationController {
-//    @Autowired
-//    private UserService userService;
 
     @Autowired
     private AssetAllocationService assetAllocationService;
