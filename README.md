@@ -27,14 +27,6 @@ SGA is an optimization and search heuristic inspired by the principles of natura
 #### Markwotiz Algorithm: 
 Markowitz mean-variance algorithm is a mathematical procedure used to determine the optimal portfolio of assets.The goal is to construct a portfolio that maximizes expected return for a given level of risk or minimizes risk for a given level of expected return.
 
-## For advanced users
-#### Black-Litterman Algorithm: 
-Black-Litterman Algorithm improves upon the traditional Markowitz mean-variance optimization by incorporating subjective views into the portfolio construction process. The algorithm was designed to address some of the limitations and criticisms of the original mean-variance optimization
-
-#### Factor Allocation Strategies : 
-Factor Allocation Strategies are investment approaches that involve allocating assets based on specific risk factors or factors that have been shown to explain returns across various asset classes.
-
-
 # Overview of the cloud architecture
 ![img.png](img.png)
 
