@@ -4,7 +4,6 @@ Any information and recommendations from the API are only references for your de
 Please think carefully about your strategies.
 
 # How to use
-## For trial users.
 ### 1. Get a temporary token using the login API with the username 'Guest' and the password 'Guest'.
 #### Eample:
 curl -X POST "http://34.81.200.80:8080/user/login" \
