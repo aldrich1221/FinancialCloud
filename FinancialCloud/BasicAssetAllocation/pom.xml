@@ -127,11 +127,16 @@
 			<version>1.50.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.finance</groupId>
-			<artifactId>GRPCInterface</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>org.ejml</groupId>
+			<artifactId>ejml-all</artifactId>
+			<version>0.41</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.finance</groupId>-->
+<!--			<artifactId>GRPCInterface</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
     </dependencies>
 	<dependencyManagement>
 		<dependencies>

@@ -5,6 +5,7 @@ package com.finance.basicassetallocation.serviceUtils;
 import com.finance.basicassetallocation.models.mongoDB.DailyStockPriceDocument;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -144,6 +145,46 @@ public class IndicatorUtil {
         }
 
         return sum / returns.length;
+    }
+
+    public static double calculateCovariance(List<Double> stockPrices1, List<Double> stockPrices2) {
+        if (stockPrices1.size() != stockPrices2.size()) {
+            throw new IllegalArgumentException("The lists must have the same length.");
+        }
+
+        int n = stockPrices1.size();
+        double mean1 = calculateMean(stockPrices1);
+        double mean2 = calculateMean(stockPrices2);
+
+        double covariance = 0.0;
+
+        for (int i = 0; i < n; i++) {
+            covariance += (stockPrices1.get(i) - mean1) * (stockPrices2.get(i) - mean2);
+        }
+
+        return covariance / (n - 1);
+    }
+
+    private static double calculateMean(List<Double> prices) {
+        double sum = 0.0;
+        for (double price : prices) {
+            sum += price;
+        }
+        return sum / prices.size();
+    }
+
+    public static HashMap<String, java.util.HashMap<String,Double>> calculateCovForAllSeries(HashMap<String, ArrayList<Double>> prices){
+        HashMap<String, java.util.HashMap<String,Double>> covMatrix = new HashMap<>();
+        List<String> symbols=prices.keySet().stream().toList();
+        for(String symbol1 : symbols) {
+            for(String symbol2 : symbols) {
+                java.util.HashMap<String,Double> tempRecord= new HashMap<>();
+                Double cov=calculateCovariance(prices.get(symbol1), prices.get(symbol2));
+                tempRecord.put(symbol2, cov);
+                covMatrix.put(symbol1, tempRecord);
+            }
+        }
+        return covMatrix;
     }
 
 
