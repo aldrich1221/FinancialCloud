@@ -52,8 +52,9 @@ public class FinanceDocumentRepository {
     }
     public List<DailyStockPriceDocument> findDocumentsInRange(String startId, String endId) {
         Query query = new Query();
+        System.out.println("ID "+startId+" "+endId);
         query.addCriteria(Criteria.where("_id").gte(startId).lte(endId));
-
+//        return mongoTemplate.findAll(DailyStockPriceDocument.class, collectionName);
         return mongoTemplate.find(query, DailyStockPriceDocument.class);
     }
 

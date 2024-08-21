@@ -100,7 +100,8 @@ public class GrpcFinanceDataServer {
             String startId = symbol + "_" + startDate;
             String endId = symbol + "_" + endDate;
 
-            List<DailyStockPriceDocument> dailyPrices = financeDocumentRepository.findDocumentsInRange(startId, endId);
+//            List<DailyStockPriceDocument> dailyPrices = financeDocumentRepository.findDocumentsInRange(startId, endId);
+            List<DailyStockPriceDocument> dailyPrices =financeDocumentRepository.findAllDocuments(symbol);
             System.out.println("dailyPrices..."+dailyPrices);
             ArrayList<Date> dateList = extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getDate);
             ArrayList<Double> adjClosePrices = extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getAdjClose);

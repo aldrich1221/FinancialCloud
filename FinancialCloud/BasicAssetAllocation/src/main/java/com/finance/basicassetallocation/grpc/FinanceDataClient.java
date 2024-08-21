@@ -8,6 +8,7 @@ import io.grpc.grpcinterface.DataResponse;
 import io.grpc.grpcinterface.GetDataGrpc;
 
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +38,7 @@ public class FinanceDataClient {
     }
 
     /** Get financial data from the server. */
-    public String getData(String symbol, String startTime, String endTime) {
+    public ArrayList<String> getData(String symbol, String startTime, String endTime) {
         logger.info("Requesting data for symbol: " + symbol);
         DataRequest request = DataRequest.newBuilder()
                 .setRequestData(symbol)
@@ -54,16 +55,18 @@ public class FinanceDataClient {
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
         }
-        return response.getMessage();
+        ArrayList<String> datalist=new ArrayList<String>();
+        datalist.addAll(response.getListData().getValueList());
+        return datalist;
     }
 
     public static void main(String[] args) throws Exception {
         FinanceDataClient client = new FinanceDataClient("localhost", 50051);
         try {
             // Replace these values with actual data
-            String symbol = "AAPL";
-            String startTime = "2024-01-01";
-            String endTime = "2024-01-31";
+            String symbol = "AOS";
+            String startTime = "2024-07-18";
+            String endTime = "2024-08-21";
 
             client.getData(symbol, startTime, endTime);
         } finally {

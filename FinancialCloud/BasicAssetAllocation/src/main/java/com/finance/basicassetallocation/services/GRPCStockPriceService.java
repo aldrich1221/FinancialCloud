@@ -37,7 +37,7 @@ public class GRPCStockPriceService {
         ManagedChannel channel = Grpc.newChannelBuilder("localhost:50051", InsecureChannelCredentials.create())
                 .build();
         for (String symbol : symbols) {
-            String response = null;
+            ArrayList<String> response = null;
             List<String> listSymbol=new ArrayList<>();
             listSymbol.add(symbol);
             try {
@@ -49,12 +49,15 @@ public class GRPCStockPriceService {
                 channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
             }
             System.out.println("Get: "+response);
+            HashMap<String, ArrayList<?>>eachData=new HashMap<>();
+            eachData.put("AdjPrice",response);
+            nestedMap.put(symbol,eachData);
         }
 
 
 
 
-////            nestedMap.put(symbol,symbolIndicator);
+
 //        }
         return nestedMap;
 

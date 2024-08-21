@@ -18,7 +18,7 @@ public class BasicAssetAllocationApplication {
 		appConfig.printProperties();
 
 
-//		SpringApplication.run(BasicAssetAllocationApplication.class, args);
+		SpringApplication.run(BasicAssetAllocationApplication.class, args);
 	}
 	public CommandLineRunner run(AppConfig myComponent) {
 		return args -> myComponent.printProperties();
