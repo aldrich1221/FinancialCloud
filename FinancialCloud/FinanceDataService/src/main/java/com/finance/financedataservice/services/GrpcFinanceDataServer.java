@@ -15,6 +15,7 @@ import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -36,6 +37,8 @@ public class GrpcFinanceDataServer {
     private static final Logger logger = Logger.getLogger(GrpcFinanceDataServer.class.getName());
 
     private final FinanceDocumentRepository financeDocumentRepository;
+
+
     private Server server;
 
     @Autowired
@@ -89,6 +92,7 @@ public class GrpcFinanceDataServer {
 
         @Override
         public void getData(DataRequest req, StreamObserver<DataResponse> responseObserver) {
+            System.out.println("GetData...");
             String symbol = req.getRequestData();
             String startDate = req.getStartTime();
             String endDate = req.getEndTime();
@@ -97,7 +101,7 @@ public class GrpcFinanceDataServer {
             String endId = symbol + "_" + endDate;
 
             List<DailyStockPriceDocument> dailyPrices = financeDocumentRepository.findDocumentsInRange(startId, endId);
-
+            System.out.println("dailyPrices..."+dailyPrices);
             ArrayList<Date> dateList = extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getDate);
             ArrayList<Double> adjClosePrices = extractDailyDataToArrayList(dailyPrices, DailyStockPriceDocument::getAdjClose);
             List<String> stringPrices = adjClosePrices.stream()

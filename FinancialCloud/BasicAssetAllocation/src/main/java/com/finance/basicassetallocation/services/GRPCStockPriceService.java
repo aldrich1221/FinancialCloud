@@ -33,7 +33,7 @@ public class GRPCStockPriceService {
         List<String>symbolsList=Arrays.stream(symbols).toList();
 
 //        String target = grpcServiceStockDataUri;
-
+        System.out.println("Start to build channel");
         ManagedChannel channel = Grpc.newChannelBuilder("localhost:50051", InsecureChannelCredentials.create())
                 .build();
         for (String symbol : symbols) {
@@ -42,7 +42,8 @@ public class GRPCStockPriceService {
             listSymbol.add(symbol);
             try {
                 FinanceDataClient client = new FinanceDataClient(channel);
-                response = client.getData(listSymbol, startDate, endDate);
+                System.out.println("Start to getData");
+                response = client.getData(symbol, startDate, endDate);
             } finally {
 
                 channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);

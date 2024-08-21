@@ -7,12 +7,14 @@ import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Repository
 public class FinanceDocumentRepository {
 
     MongoClient mongoClient = MongoClients.create("mongodb://34.81.200.80:27017");

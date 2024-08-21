@@ -1,5 +1,6 @@
 package com.finance.financedataservice.config;
 import com.finance.financedataservice.repositories.FinanceDocumentRepository;
+import com.finance.financedataservice.services.GrpcFinanceDataServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,4 +16,9 @@ public class Config {
     public FinanceDocumentRepository financeDocumentRepository() {
         return new FinanceDocumentRepository();
     }
+    @Bean
+    public GrpcFinanceDataServer grpcFinanceDataServer(FinanceDocumentRepository financeDocumentRepository) {
+        return new GrpcFinanceDataServer(financeDocumentRepository);
+    }
+
 }
