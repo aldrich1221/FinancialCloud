@@ -1,5 +1,7 @@
 package io.grpc.grpcinterface;
 
+import java.io.IOException;
+
 import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
@@ -97,7 +99,7 @@ public final class GetDataGrpc {
     /**
      */
     public void getData(io.grpc.grpcinterface.DataRequest request,
-        io.grpc.stub.StreamObserver<io.grpc.grpcinterface.DataResponse> responseObserver) {
+        io.grpc.stub.StreamObserver<io.grpc.grpcinterface.DataResponse> responseObserver) throws IOException {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetDataMethod(), responseObserver);
     }
 

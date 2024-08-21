@@ -20,6 +20,9 @@ public class assetAllocationController {
     @Autowired
     private AssetAllocationService assetAllocationService;
 
+    @Autowired
+    private GRPCStockPriceService grpcStockPriceService;
+    
     @GetMapping("/test")
     public String test() {
         try {
@@ -53,6 +56,32 @@ public class assetAllocationController {
             }else if(checkValid(symbols)){
 
                 ans =assetAllocationService.simpleAllocation(symbols);
+            }
+            else{
+                throw new Exception("Invalid symbols");
+            }
+
+            ApiResponse<HashMap<String,Double>> response = new ApiResponse<>(200, "Success", ans);
+            return response;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<Exception> response = new ApiResponse<>(300, "Failure", e);
+            return response;
+        }
+    }
+
+    @PostMapping(path="/getPrice",consumes = "application/json",produces = "application/json")
+    public ApiResponse<?> basicMethod(@RequestBody StockPriceRequest stockPriceRequest) throws IOException {
+        String[] symbols = stockPriceRequest.getSymbols();
+        String startTime=stockPriceRequest.getStartTime();
+        String endTime=stockPriceRequest.getEndTime();
+        HashMap<String,Double> ans=new HashMap<>();
+
+        try {
+            if(checkValid(symbols)){
+
+                ans =grpcStockPriceService.getStockPricesBySymbolsByDateRange(symbols,startTime,endTime);
             }
             else{
                 throw new Exception("Invalid symbols");

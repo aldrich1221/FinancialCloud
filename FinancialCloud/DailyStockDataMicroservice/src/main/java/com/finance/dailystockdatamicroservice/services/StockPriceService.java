@@ -18,12 +18,12 @@ public class StockPriceService {
     private FinanceDocumentRepository financeDocumentRepository=new FinanceDocumentRepository();
 
 
-    public HashMap<String, HashMap<String, ArrayList<?>>> getStockPricesBySymbolsByDateRange(String [] symbols, Timestamp startTime, Timestamp endTime) throws IOException {
+    public HashMap<String, HashMap<String, ArrayList<?>>> getStockPricesBySymbolsByDateRange(String [] symbols, String startDate, String endDate) throws IOException {
         HashMap<String, HashMap<String, ArrayList<?>>> nestedMap=new HashMap<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        String startDate=dateFormat.format(new Date(startTime.getTime()));
-        String endDate=dateFormat.format(new Date(endTime.getTime()));
+//        String startDate=dateFormat.format(new Date(startTime.getTime()));
+//        String endDate=dateFormat.format(new Date(endTime.getTime()));
 
 
         for (String symbol : symbols) {

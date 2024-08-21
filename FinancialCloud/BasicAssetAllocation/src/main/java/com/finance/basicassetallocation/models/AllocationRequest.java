@@ -9,7 +9,14 @@ public class AllocationRequest {
     @JsonProperty("symbols")
     private String[] symbols;
 
+    @JsonProperty("method")
     private String method;
+
+    @JsonProperty("startTime")
+    private String startTime;
+
+    @JsonProperty("endTime")
+    private String endTime;
 
     // Getters and setters
 
@@ -19,6 +26,8 @@ public class AllocationRequest {
     public String getMethod() {
         return method;
     }
+    public String getStartTime() {return startTime;}
+    public String getEndTime() {return endTime;}
 
     public void setSymbols(String[] symbols) {
         this.symbols = symbols;
@@ -26,4 +35,9 @@ public class AllocationRequest {
     public void setMethod(String method) {
         this.method = method;
     }
+    public void setStartTime(String startTime) {this.startTime = startTime;}
+    public void setEndTime(String endTime) {this.endTime = endTime;}
+
+
+
 }

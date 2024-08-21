@@ -17,8 +17,8 @@ public class BasicAssetAllocationApplication {
 
 		appConfig.printProperties();
 
-		FinanceDataClient.main(args);
-//		SpringApplication.run(BasicAssetAllocationApplication.class, args);
+
+		SpringApplication.run(BasicAssetAllocationApplication.class, args);
 	}
 	public CommandLineRunner run(AppConfig myComponent) {
 		return args -> myComponent.printProperties();

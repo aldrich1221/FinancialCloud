@@ -1,6 +1,8 @@
 package com.finance.dailystockdatamicroservice.services.grpc;
 
 
+import com.finance.dailystockdatamicroservice.models.response.IndicatorResponse;
+import com.finance.dailystockdatamicroservice.services.StockPriceService;
 import io.grpc.Grpc;
 import io.grpc.InsecureServerCredentials;
 import io.grpc.Server;
@@ -15,6 +17,7 @@ import io.grpc.grpcinterface.DataResponse;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -23,6 +26,7 @@ import java.util.logging.Logger;
  */
 public class FinanceDataServer {
     private static final Logger logger = Logger.getLogger(FinanceDataServer.class.getName());
+    private static final StockPriceService stockPriceService=new StockPriceService();
 
     private Server server;
 
@@ -75,13 +79,26 @@ public class FinanceDataServer {
 
     static class FinanceDataImpl extends GetDataGrpc.GetDataImplBase {
 
+
         @Override
-        public void getData(DataRequest req, StreamObserver<DataResponse> responseObserver) {
+        public void getData(DataRequest req, StreamObserver<DataResponse> responseObserver) throws IOException {
             System.out.println(req.getRequestData());
+            String symbol=req.getRequestData();
+            String startTime=req.getStartTime();
+            String endTime=req.getEndTime();
+
+            String[] list={symbol};
+
+            IndicatorResponse ans = (IndicatorResponse) stockPriceService.getStockPricesBySymbolsByDateRange(list,startTime,endTime);
+
+
+            ans.
 
             DataResponse reply = DataResponse.newBuilder()
                     .setMessage("Get Data.." + req.getRequestData())
-                    .setNotes("This is testing")
+                    .setStartTime(startTime)
+                    .setEndTime(endTime)
+                    .setNotes("Return data")
                     .build();
 
             responseObserver.onNext(reply);

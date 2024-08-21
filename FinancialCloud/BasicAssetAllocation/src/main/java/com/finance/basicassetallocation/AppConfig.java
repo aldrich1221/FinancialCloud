@@ -8,12 +8,28 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix = "app")
-
+//@ConfigurationProperties(prefix = "app")
 public class AppConfig {
 
     @Value("${app.host}")
     private static String appHost;
+
+    @Value("${grpc.service.stockdata.uri}")
+    private static String grpcServiceStockDataUri;
+
+    @Value("${app.name}")
+    private String appName;
+
+    @Value("${app.version}")
+    private String appVersion;
+
+    public static String getGrpcServiceStockDataUri() {
+        return grpcServiceStockDataUri;
+    }
+
+    public void setGrpcServiceStockDataUri(String grpcServiceStockDataUri) {
+        this.grpcServiceStockDataUri = grpcServiceStockDataUri;
+    }
 
     public static String getAppHost() {
         return appHost;
@@ -28,11 +44,7 @@ public class AppConfig {
     }
 
 
-    @Value("${app.name}")
-    private String appName;
 
-    @Value("${app.version}")
-    private String appVersion;
 
     public void printProperties() {
         System.out.println("App Name: " + appName);

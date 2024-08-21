@@ -54,35 +54,5 @@ public class FinanceDataClient {
      * Greet server. If provided, the first element of {@code args} is the name to use in the
      * greeting. The second argument is the target server.
      */
-    public static void main(String[] args) throws Exception {
-        String user = "Aldrich";
-        List<String> symbols = new ArrayList<>();
-        symbols.add(user);
-        // Access a service running on the local machine on port 50051
-        String target = "localhost:50051";
-        // Allow passing in the user and target strings as command line arguments
-        if (args.length > 0) {
-            if ("--help".equals(args[0])) {
-                System.err.println("Usage: [name [target]]");
-                System.err.println("");
-                System.err.println("  name    The name you wish to be greeted by. Defaults to " + user);
-                System.err.println("  target  The server to connect to. Defaults to " + target);
-                System.exit(1);
-            }
-            user = args[0];
-        }
-        if (args.length > 1) {
-            target = args[1];
-        }
-
-        ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
-                .build();
-        try {
-            FinanceDataClient client = new FinanceDataClient(channel);
-            client.getData(symbols,"111","222");
-        } finally {
-
-            channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
-        }
-    }
+   
 }

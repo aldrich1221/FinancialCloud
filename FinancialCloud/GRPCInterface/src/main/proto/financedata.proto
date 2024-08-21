@@ -18,7 +18,11 @@ message DataRequest {
   string startTime = 2;
   string endTime = 3;
   string notes= 4;
+  map<string,  ListOfString> mapListData = 5;
+}
 
+message ListOfString {
+  repeated string value = 1;
 }
 
 message DataResponse{
@@ -26,5 +30,5 @@ message DataResponse{
   string startTime = 2;
   string endTime = 3;
   string notes= 4;
-
+  map<string,  ListOfString> mapListData = 5;
 }

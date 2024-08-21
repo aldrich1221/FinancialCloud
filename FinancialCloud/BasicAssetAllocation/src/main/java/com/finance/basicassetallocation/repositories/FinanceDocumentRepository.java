@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Component
 public class FinanceDocumentRepository {
 
     MongoClient mongoClient = MongoClients.create("mongodb://34.81.200.80:27017");
