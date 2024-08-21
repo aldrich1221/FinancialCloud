@@ -1,10 +1,9 @@
 package com.finance.basicassetallocation.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
 
 
-public class AllocationRequest {
+public class StockDataRequest {
 
     @JsonProperty("symbols")
     private String[] symbols;

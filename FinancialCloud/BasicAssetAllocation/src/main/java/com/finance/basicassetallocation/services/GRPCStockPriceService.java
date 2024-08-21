@@ -9,6 +9,7 @@ import com.finance.basicassetallocation.serviceUtils.IndicatorUtil;
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -19,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import static com.finance.basicassetallocation.serviceUtils.IndicatorUtil.extractDailyDataToArrayList;
 
 
+@Service
 public class GRPCStockPriceService {
 
     public HashMap<String, HashMap<String, ArrayList<?>>> getStockPricesBySymbolsByDateRange(String [] symbols, Timestamp startTime, Timestamp endTime) throws IOException, InterruptedException {
@@ -30,15 +32,17 @@ public class GRPCStockPriceService {
 
         List<String>symbolsList=Arrays.stream(symbols).toList();
 
-        String target = grpcServiceStockDataUri;
+//        String target = grpcServiceStockDataUri;
 
-        ManagedChannel channel = Grpc.newChannelBuilder(target, InsecureChannelCredentials.create())
+        ManagedChannel channel = Grpc.newChannelBuilder("localhost:50051", InsecureChannelCredentials.create())
                 .build();
         for (String symbol : symbols) {
             String response = null;
+            List<String> listSymbol=new ArrayList<>();
+            listSymbol.add(symbol);
             try {
                 FinanceDataClient client = new FinanceDataClient(channel);
-                response = client.getData(symbol, startDate, endDate);
+                response = client.getData(listSymbol, startDate, endDate);
             } finally {
 
                 channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
@@ -49,8 +53,8 @@ public class GRPCStockPriceService {
 
 
 
-//            nestedMap.put(symbol,symbolIndicator);
-        }
+////            nestedMap.put(symbol,symbolIndicator);
+//        }
         return nestedMap;
 
     }

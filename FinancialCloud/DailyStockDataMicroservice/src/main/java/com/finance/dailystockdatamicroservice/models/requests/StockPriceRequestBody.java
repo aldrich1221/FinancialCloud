@@ -1,7 +1,11 @@
 package com.finance.dailystockdatamicroservice.models.requests;
 
-import java.sql.Timestamp;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.sql.Timestamp;
+@Setter
+@Getter
 public class StockPriceRequestBody {
     private String [] symbols;
 
@@ -13,20 +17,11 @@ public class StockPriceRequestBody {
        this.symbols = symbols;
    }
 
-   public String[] getSymbols(){
-       return symbols;
-   }
-
-   public void setStartTime(Timestamp startTime){
+    public void setStartTime(Timestamp startTime){
        this.startTime = startTime;
    }
-   public Timestamp getStartTime(){
-       return startTime;
-   }
-   public void setEndTime(Timestamp endTime){
+
+    public void setEndTime(Timestamp endTime){
        this.endTime = endTime;
-   }
-   public Timestamp getEndTime(){
-       return endTime;
    }
 }

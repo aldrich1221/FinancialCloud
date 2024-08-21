@@ -1,21 +1,15 @@
-package com.finance.dailystockdatamicroservice.services.grpc;
+package com.finance.financedataservice.services;
 
 
-import com.finance.dailystockdatamicroservice.AppConfig;
-import com.finance.dailystockdatamicroservice.config.Config;
-import com.finance.dailystockdatamicroservice.models.mongoDB.DailyStockPriceDocument;
-import com.finance.dailystockdatamicroservice.repositories.FinanceDocumentRepository;
+import com.finance.financedataservice.config.Config;
+import com.finance.financedataservice.models.mongodb.DailyStockPriceDocument;
+import com.finance.financedataservice.repositories.FinanceDocumentRepository;
 import io.grpc.Grpc;
 import io.grpc.InsecureServerCredentials;
 import io.grpc.Server;
-//import io.grpc.examples.helloworld.GreeterGrpc;
-//import io.grpc.examples.helloworld.HelloReply;
-//import io.grpc.examples.helloworld.HelloRequest;
 
-import io.grpc.grpcinterface.GetDataGrpc;
 import io.grpc.grpcinterface.DataRequest;
 import io.grpc.grpcinterface.DataResponse;
-
 import io.grpc.grpcinterface.ListOfString;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +23,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import static com.finance.dailystockdatamicroservice.serviceUtils.IndicatorUtil.extractDailyDataToArrayList;
+import io.grpc.grpcinterface.GetDataGrpc;
+
+import static com.finance.financedataservice.utils.IndicatorUtil.extractDailyDataToArrayList;
 
 /**
  * Server that manages startup/shutdown of a {@code Greeter} server.
  */
 @Service
-public class FinanceDataServer {
-    private static final Logger logger = Logger.getLogger(FinanceDataServer.class.getName());
+public class GrpcFinanceDataServer {
+    private static final Logger logger = Logger.getLogger(GrpcFinanceDataServer.class.getName());
 
     private final FinanceDocumentRepository financeDocumentRepository;
     private Server server;
 
     @Autowired
-    public FinanceDataServer(FinanceDocumentRepository financeDocumentRepository) {
+    public GrpcFinanceDataServer(FinanceDocumentRepository financeDocumentRepository) {
         this.financeDocumentRepository = financeDocumentRepository;
     }
 
@@ -58,7 +53,7 @@ public class FinanceDataServer {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.err.println("*** shutting down gRPC server since JVM is shutting down");
             try {
-                FinanceDataServer.this.stop();
+                GrpcFinanceDataServer.this.stop();
             } catch (InterruptedException e) {
                 e.printStackTrace(System.err);
             }
@@ -80,7 +75,7 @@ public class FinanceDataServer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
-        FinanceDataServer server = context.getBean(FinanceDataServer.class);
+        GrpcFinanceDataServer server = context.getBean(GrpcFinanceDataServer.class);
         server.start();
         server.blockUntilShutdown();
     }

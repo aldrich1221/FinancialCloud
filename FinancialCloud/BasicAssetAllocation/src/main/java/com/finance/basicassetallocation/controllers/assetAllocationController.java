@@ -1,13 +1,16 @@
 package com.finance.basicassetallocation.controllers;
 
-import com.finance.basicassetallocation.models.AllocationRequest;
+import com.finance.basicassetallocation.models.StockDataRequest;
 import com.finance.basicassetallocation.models.response.ApiResponse;
 import com.finance.basicassetallocation.services.AssetAllocationService;
 //import com.finance.basicassetallocation.services.UserService;
+import com.finance.basicassetallocation.services.GRPCStockPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.finance.basicassetallocation.serviceUtils.StockPoolUtil.SP500Symbols;
@@ -42,7 +45,7 @@ public class assetAllocationController {
 
 
     @PostMapping(path="/basic",consumes = "application/json",produces = "application/json")
-    public ApiResponse<?> basicMethod(@RequestBody AllocationRequest allocationRequest) throws IOException {
+    public ApiResponse<?> basicMethod(@RequestBody StockDataRequest allocationRequest) throws IOException {
         String[] symbols = allocationRequest.getSymbols();
         HashMap<String,Double> ans=new HashMap<>();
 
@@ -72,11 +75,12 @@ public class assetAllocationController {
     }
 
     @PostMapping(path="/getPrice",consumes = "application/json",produces = "application/json")
-    public ApiResponse<?> basicMethod(@RequestBody StockPriceRequest stockPriceRequest) throws IOException {
+    public ApiResponse<?> getPriceMethod(@RequestBody StockDataRequest stockPriceRequest) throws IOException {
         String[] symbols = stockPriceRequest.getSymbols();
-        String startTime=stockPriceRequest.getStartTime();
-        String endTime=stockPriceRequest.getEndTime();
-        HashMap<String,Double> ans=new HashMap<>();
+        Timestamp startTime= Timestamp.valueOf(stockPriceRequest.getStartTime());
+        Timestamp endTime= Timestamp.valueOf(stockPriceRequest.getEndTime());
+
+        HashMap<String, HashMap<String, ArrayList<?>>> ans=new HashMap<>();
 
         try {
             if(checkValid(symbols)){
@@ -87,7 +91,7 @@ public class assetAllocationController {
                 throw new Exception("Invalid symbols");
             }
 
-            ApiResponse<HashMap<String,Double>> response = new ApiResponse<>(200, "Success", ans);
+            ApiResponse<HashMap<String, HashMap<String, ArrayList<?>>>> response = new ApiResponse<>(200, "Success", ans);
             return response;
         }
         catch (Exception e) {

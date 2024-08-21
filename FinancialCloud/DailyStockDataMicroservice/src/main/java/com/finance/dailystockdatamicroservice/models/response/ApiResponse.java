@@ -1,6 +1,10 @@
 package com.finance.dailystockdatamicroservice.models.response;
 
+import lombok.Getter;
+
+@Getter
 public class ApiResponse<T> {
+    // Getters and setters
     private int status;
     private String message;
     private T data;
@@ -11,25 +15,12 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    // Getters and setters
-    public int getStatus() {
-        return status;
-    }
-
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public T getData() {
-        return data;
     }
 
     public void setData(T data) {

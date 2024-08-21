@@ -3,9 +3,14 @@
 
 package io.grpc.grpcinterface;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Protobuf type {@code financedata.DataResponse}
  */
+@Setter
+@Getter
 public final class DataResponse extends
     com.google.protobuf.GeneratedMessageV3 implements
     // @@protoc_insertion_point(message_implements:financedata.DataResponse)

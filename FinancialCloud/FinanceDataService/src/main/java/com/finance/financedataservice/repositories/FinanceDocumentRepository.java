@@ -1,7 +1,5 @@
-package com.finance.basicassetallocation.repositories;
-
-
-import com.finance.basicassetallocation.models.mongoDB.DailyStockPriceDocument;
+package com.finance.financedataservice.repositories;
+import com.finance.financedataservice.models.mongodb.DailyStockPriceDocument;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -9,14 +7,12 @@ import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Component
 public class FinanceDocumentRepository {
 
     MongoClient mongoClient = MongoClients.create("mongodb://34.81.200.80:27017");

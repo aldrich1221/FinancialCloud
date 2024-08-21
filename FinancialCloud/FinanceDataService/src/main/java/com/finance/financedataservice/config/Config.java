@@ -1,8 +1,5 @@
-package com.finance.dailystockdatamicroservice.config;
-
-import com.finance.dailystockdatamicroservice.repositories.FinanceDocumentRepository;
-import com.finance.dailystockdatamicroservice.services.grpc.FinanceDataServer;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.finance.financedataservice.config;
+import com.finance.financedataservice.repositories.FinanceDocumentRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
