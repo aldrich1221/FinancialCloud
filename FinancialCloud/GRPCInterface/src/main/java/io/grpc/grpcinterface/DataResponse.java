@@ -34,6 +34,18 @@ private static final long serialVersionUID = 0L;
     return io.grpc.grpcinterface.GetDataProto.internal_static_financedata_DataResponse_descriptor;
   }
 
+  @SuppressWarnings({"rawtypes"})
+  @java.lang.Override
+  protected com.google.protobuf.MapField internalGetMapField(
+      int number) {
+    switch (number) {
+      case 5:
+        return internalGetMapListData();
+      default:
+        throw new RuntimeException(
+            "Invalid map field number: " + number);
+    }
+  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -198,6 +210,85 @@ private static final long serialVersionUID = 0L;
     }
   }
 
+  public static final int MAPLISTDATA_FIELD_NUMBER = 5;
+  private static final class MapListDataDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, io.grpc.grpcinterface.ListOfString> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, io.grpc.grpcinterface.ListOfString>newDefaultInstance(
+                io.grpc.grpcinterface.GetDataProto.internal_static_financedata_DataResponse_MapListDataEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                io.grpc.grpcinterface.ListOfString.getDefaultInstance());
+  }
+  @SuppressWarnings("serial")
+  private com.google.protobuf.MapField<
+      java.lang.String, io.grpc.grpcinterface.ListOfString> mapListData_;
+  private com.google.protobuf.MapField<java.lang.String, io.grpc.grpcinterface.ListOfString>
+  internalGetMapListData() {
+    if (mapListData_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          MapListDataDefaultEntryHolder.defaultEntry);
+    }
+    return mapListData_;
+  }
+  public int getMapListDataCount() {
+    return internalGetMapListData().getMap().size();
+  }
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  @java.lang.Override
+  public boolean containsMapListData(
+      java.lang.String key) {
+    if (key == null) { throw new NullPointerException("map key"); }
+    return internalGetMapListData().getMap().containsKey(key);
+  }
+  /**
+   * Use {@link #getMapListDataMap()} instead.
+   */
+  @java.lang.Override
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> getMapListData() {
+    return getMapListDataMap();
+  }
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  @java.lang.Override
+  public java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> getMapListDataMap() {
+    return internalGetMapListData().getMap();
+  }
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  @java.lang.Override
+  public /* nullable */
+io.grpc.grpcinterface.ListOfString getMapListDataOrDefault(
+      java.lang.String key,
+      /* nullable */
+io.grpc.grpcinterface.ListOfString defaultValue) {
+    if (key == null) { throw new NullPointerException("map key"); }
+    java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> map =
+        internalGetMapListData().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
+  }
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  @java.lang.Override
+  public io.grpc.grpcinterface.ListOfString getMapListDataOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new NullPointerException("map key"); }
+    java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> map =
+        internalGetMapListData().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -224,6 +315,12 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(notes_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, notes_);
     }
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetMapListData(),
+        MapListDataDefaultEntryHolder.defaultEntry,
+        5);
     getUnknownFields().writeTo(output);
   }
 
@@ -244,6 +341,16 @@ private static final long serialVersionUID = 0L;
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(notes_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, notes_);
+    }
+    for (java.util.Map.Entry<java.lang.String, io.grpc.grpcinterface.ListOfString> entry
+         : internalGetMapListData().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, io.grpc.grpcinterface.ListOfString>
+      mapListData__ = MapListDataDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
+      size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, mapListData__);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -268,6 +375,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getEndTime())) return false;
     if (!getNotes()
         .equals(other.getNotes())) return false;
+    if (!internalGetMapListData().equals(
+        other.internalGetMapListData())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -287,6 +396,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getEndTime().hashCode();
     hash = (37 * hash) + NOTES_FIELD_NUMBER;
     hash = (53 * hash) + getNotes().hashCode();
+    if (!internalGetMapListData().getMap().isEmpty()) {
+      hash = (37 * hash) + MAPLISTDATA_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetMapListData().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -396,6 +509,28 @@ private static final long serialVersionUID = 0L;
       return io.grpc.grpcinterface.GetDataProto.internal_static_financedata_DataResponse_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetMapListData();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMutableMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetMutableMapListData();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -422,6 +557,7 @@ private static final long serialVersionUID = 0L;
       startTime_ = "";
       endTime_ = "";
       notes_ = "";
+      internalGetMutableMapListData().clear();
       return this;
     }
 
@@ -466,6 +602,10 @@ private static final long serialVersionUID = 0L;
       }
       if (((from_bitField0_ & 0x00000008) != 0)) {
         result.notes_ = notes_;
+      }
+      if (((from_bitField0_ & 0x00000010) != 0)) {
+        result.mapListData_ = internalGetMapListData();
+        result.mapListData_.makeImmutable();
       }
     }
 
@@ -533,6 +673,9 @@ private static final long serialVersionUID = 0L;
         bitField0_ |= 0x00000008;
         onChanged();
       }
+      internalGetMutableMapListData().mergeFrom(
+          other.internalGetMapListData());
+      bitField0_ |= 0x00000010;
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
       return this;
@@ -579,6 +722,15 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000008;
               break;
             } // case 34
+            case 42: {
+              com.google.protobuf.MapEntry<java.lang.String, io.grpc.grpcinterface.ListOfString>
+              mapListData__ = input.readMessage(
+                  MapListDataDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              internalGetMutableMapListData().getMutableMap().put(
+                  mapListData__.getKey(), mapListData__.getValue());
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -881,6 +1033,133 @@ private static final long serialVersionUID = 0L;
       notes_ = value;
       bitField0_ |= 0x00000008;
       onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.MapField<
+        java.lang.String, io.grpc.grpcinterface.ListOfString> mapListData_;
+    private com.google.protobuf.MapField<java.lang.String, io.grpc.grpcinterface.ListOfString>
+        internalGetMapListData() {
+      if (mapListData_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            MapListDataDefaultEntryHolder.defaultEntry);
+      }
+      return mapListData_;
+    }
+    private com.google.protobuf.MapField<java.lang.String, io.grpc.grpcinterface.ListOfString>
+        internalGetMutableMapListData() {
+      if (mapListData_ == null) {
+        mapListData_ = com.google.protobuf.MapField.newMapField(
+            MapListDataDefaultEntryHolder.defaultEntry);
+      }
+      if (!mapListData_.isMutable()) {
+        mapListData_ = mapListData_.copy();
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return mapListData_;
+    }
+    public int getMapListDataCount() {
+      return internalGetMapListData().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    @java.lang.Override
+    public boolean containsMapListData(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      return internalGetMapListData().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getMapListDataMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> getMapListData() {
+      return getMapListDataMap();
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    @java.lang.Override
+    public java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> getMapListDataMap() {
+      return internalGetMapListData().getMap();
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    @java.lang.Override
+    public /* nullable */
+io.grpc.grpcinterface.ListOfString getMapListDataOrDefault(
+        java.lang.String key,
+        /* nullable */
+io.grpc.grpcinterface.ListOfString defaultValue) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> map =
+          internalGetMapListData().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    @java.lang.Override
+    public io.grpc.grpcinterface.ListOfString getMapListDataOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> map =
+          internalGetMapListData().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+    public Builder clearMapListData() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      internalGetMutableMapListData().getMutableMap()
+          .clear();
+      return this;
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    public Builder removeMapListData(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      internalGetMutableMapListData().getMutableMap()
+          .remove(key);
+      return this;
+    }
+    /**
+     * Use alternate mutation accessors instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString>
+        getMutableMapListData() {
+      bitField0_ |= 0x00000010;
+      return internalGetMutableMapListData().getMutableMap();
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    public Builder putMapListData(
+        java.lang.String key,
+        io.grpc.grpcinterface.ListOfString value) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      if (value == null) { throw new NullPointerException("map value"); }
+      internalGetMutableMapListData().getMutableMap()
+          .put(key, value);
+      bitField0_ |= 0x00000010;
+      return this;
+    }
+    /**
+     * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+     */
+    public Builder putAllMapListData(
+        java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString> values) {
+      internalGetMutableMapListData().getMutableMap()
+          .putAll(values);
+      bitField0_ |= 0x00000010;
       return this;
     }
     @java.lang.Override

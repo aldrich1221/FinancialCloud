@@ -54,4 +54,38 @@ public interface DataRequestOrBuilder extends
    */
   com.google.protobuf.ByteString
       getNotesBytes();
+
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  int getMapListDataCount();
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  boolean containsMapListData(
+      java.lang.String key);
+  /**
+   * Use {@link #getMapListDataMap()} instead.
+   */
+  @java.lang.Deprecated
+  java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString>
+  getMapListData();
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  java.util.Map<java.lang.String, io.grpc.grpcinterface.ListOfString>
+  getMapListDataMap();
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  /* nullable */
+io.grpc.grpcinterface.ListOfString getMapListDataOrDefault(
+      java.lang.String key,
+      /* nullable */
+io.grpc.grpcinterface.ListOfString defaultValue);
+  /**
+   * <code>map&lt;string, .financedata.ListOfString&gt; mapListData = 5;</code>
+   */
+  io.grpc.grpcinterface.ListOfString getMapListDataOrThrow(
+      java.lang.String key);
 }

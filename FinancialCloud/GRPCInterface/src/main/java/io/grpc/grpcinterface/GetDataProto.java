@@ -20,10 +20,25 @@ public final class GetDataProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_financedata_DataRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_financedata_DataRequest_MapListDataEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_financedata_DataRequest_MapListDataEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_financedata_ListOfString_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_financedata_ListOfString_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_financedata_DataResponse_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_financedata_DataResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_financedata_DataResponse_MapListDataEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_financedata_DataResponse_MapListDataEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -33,12 +48,20 @@ public final class GetDataProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021financedata.proto\022\013financedata\"U\n\013Data" +
-      "Request\022\023\n\013requestData\030\001 \001(\t\022\021\n\tstartTim" +
-      "e\030\002 \001(\t\022\017\n\007endTime\030\003 \001(\t\022\r\n\005notes\030\004 \001(\t\"" +
-      "R\n\014DataResponse\022\017\n\007message\030\001 \001(\t\022\021\n\tstar" +
-      "tTime\030\002 \001(\t\022\017\n\007endTime\030\003 \001(\t\022\r\n\005notes\030\004 " +
-      "\001(\t2K\n\007GetData\022@\n\007GetData\022\030.financedata." +
+      "\n\021financedata.proto\022\013financedata\"\344\001\n\013Dat" +
+      "aRequest\022\023\n\013requestData\030\001 \001(\t\022\021\n\tstartTi" +
+      "me\030\002 \001(\t\022\017\n\007endTime\030\003 \001(\t\022\r\n\005notes\030\004 \001(\t" +
+      "\022>\n\013mapListData\030\005 \003(\0132).financedata.Data" +
+      "Request.MapListDataEntry\032M\n\020MapListDataE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022(\n\005value\030\002 \001(\0132\031.finan" +
+      "cedata.ListOfString:\0028\001\"\035\n\014ListOfString\022" +
+      "\r\n\005value\030\001 \003(\t\"\342\001\n\014DataResponse\022\017\n\007messa" +
+      "ge\030\001 \001(\t\022\021\n\tstartTime\030\002 \001(\t\022\017\n\007endTime\030\003" +
+      " \001(\t\022\r\n\005notes\030\004 \001(\t\022?\n\013mapListData\030\005 \003(\013" +
+      "2*.financedata.DataResponse.MapListDataE" +
+      "ntry\032M\n\020MapListDataEntry\022\013\n\003key\030\001 \001(\t\022(\n" +
+      "\005value\030\002 \001(\0132\031.financedata.ListOfString:" +
+      "\0028\0012K\n\007GetData\022@\n\007GetData\022\030.financedata." +
       "DataRequest\032\031.financedata.DataResponse\"\000" +
       "B-\n\025io.grpc.grpcinterfaceB\014GetDataProtoP" +
       "\001\242\002\003HLWb\006proto3"
@@ -52,13 +75,31 @@ public final class GetDataProto {
     internal_static_financedata_DataRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_financedata_DataRequest_descriptor,
-        new java.lang.String[] { "RequestData", "StartTime", "EndTime", "Notes", });
-    internal_static_financedata_DataResponse_descriptor =
+        new java.lang.String[] { "RequestData", "StartTime", "EndTime", "Notes", "MapListData", });
+    internal_static_financedata_DataRequest_MapListDataEntry_descriptor =
+      internal_static_financedata_DataRequest_descriptor.getNestedTypes().get(0);
+    internal_static_financedata_DataRequest_MapListDataEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_financedata_DataRequest_MapListDataEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_financedata_ListOfString_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_financedata_ListOfString_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_financedata_ListOfString_descriptor,
+        new java.lang.String[] { "Value", });
+    internal_static_financedata_DataResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_financedata_DataResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_financedata_DataResponse_descriptor,
-        new java.lang.String[] { "Message", "StartTime", "EndTime", "Notes", });
+        new java.lang.String[] { "Message", "StartTime", "EndTime", "Notes", "MapListData", });
+    internal_static_financedata_DataResponse_MapListDataEntry_descriptor =
+      internal_static_financedata_DataResponse_descriptor.getNestedTypes().get(0);
+    internal_static_financedata_DataResponse_MapListDataEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_financedata_DataResponse_MapListDataEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
